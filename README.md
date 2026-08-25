@@ -346,6 +346,6 @@ Users should independently verify information and exercise appropriate caution b
 
 ## 🔒 Proprietary Project
 
-**© 2026 SP Randhawa & Project Partner — All Rights Reserved.**
+**© 2026 SP Randhawa & Satinder Kaur — All Rights Reserved.**
 
 **Unauthorized copying, reproduction, redistribution, or use is prohibited.**
