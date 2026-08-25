@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block title %}Search | Home Helper Finder{% endblock %}
+
+{% block content %}
+<section class="max-w-3xl py-10"><p class="text-sm font-bold uppercase tracking-[0.2em] text-green">Search</p><h1 class="mt-3 text-4xl font-black text-navy">Results for “{{ query }}”</h1><p class="mt-5 text-lg text-slate-600">Search is connected and ready for helper profiles and services as those records are added.</p><a href="{% url 'helpers:list' %}" class="mt-8 inline-block rounded-lg bg-green px-5 py-3 font-bold text-white hover:bg-green-dark">Browse helpers</a></section>
+{% endblock %}
