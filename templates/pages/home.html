@@ -126,8 +126,8 @@
     <img src="{% static 'images/logo.png' %}" class="logo" alt="logo"> 
 
     <div class="buttons"> 
-        <a href="#" class="btn customer">Customer Login</a> 
-        <a href="#" class="btn helper">Helper Login</a> 
+        <a href="{% url 'customers:dashboard' %}" class="btn customer">Customer Space</a> 
+        <a href="{% url 'helpers:list' %}" class="btn helper">Find Helpers</a> 
     </div> 
 </section> 
 
