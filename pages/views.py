@@ -19,3 +19,7 @@ def help_guide(request):
 def search(request):
 	query = request.GET.get('q', '').strip()
 	return render(request, 'pages/search.html', {'query': query, 'active_page': 'search'})
+
+
+def privacy(request):
+	return render(request, 'pages/privacy.html', {'active_page': 'privacy'})
