@@ -68,14 +68,6 @@
                        class="px-3 py-2 rounded-md hover:text-green hover:bg-green/5 transition-colors duration-200 {% if active_page == 'contact' %}text-green font-bold{% endif %}">
                         Contact
                     </a>
-                    <a href="{% url 'helpers:list' %}" 
-                       class="px-3 py-2 rounded-md hover:text-green hover:bg-green/5 transition-colors duration-200 {% if active_page == 'helpers' %}text-green font-bold{% endif %}">
-                        Helpers
-                    </a>
-                    <a href="{% url 'requests:list' %}" 
-                       class="px-3 py-2 rounded-md hover:text-green hover:bg-green/5 transition-colors duration-200 {% if active_page == 'requests' %}text-green font-bold{% endif %}">
-                        Requests
-                    </a>
                 </nav>
 
                 <!-- Right Side: Search Bar -->
@@ -131,10 +123,8 @@
                         <li><a href="{% url 'pages:about' %}" class="hover:text-white transition-colors">About Us</a></li>
                         <li><a href="{% url 'pages:help' %}" class="hover:text-white transition-colors">Help Guide</a></li>
                         <li><a href="{% url 'pages:contact' %}" class="hover:text-white transition-colors">Contact Us</a></li>
-                        <li><a href="{% url 'helpers:list' %}" class="hover:text-white transition-colors">Find Helpers</a></li>
-                        <li><a href="{% url 'accounts:dashboard' %}" class="hover:text-white transition-colors">My Account</a></li>
-                        <li><a href="{% url 'pages:search' %}" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                        <li><a href="{% url 'pages:search' %}" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="{% url 'pages:privacy' %}" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="{% url 'pages:terms' %}" class="hover:text-white transition-colors">Terms of Service</a></li>
                     </ul>
                 </div>
 
