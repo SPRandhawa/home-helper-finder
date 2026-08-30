@@ -120,6 +120,78 @@
     font-size: 24px;
     background: #f9fafb; /* optional (clean look) */
 }
+/* HOW IT WORKS */
+.how-it-works {
+    padding: 60px 20px;
+    text-align: center;
+    background: white;
+}
+
+.how-it-works h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.step {
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: #28A745;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.trust {
+    padding: 60px 20px;
+    text-align: center;
+    background: #f9fafb;
+}
+
+.trust-grid {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.trust-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 260px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.cta {
+    padding: 60px 20px;
+    text-align: center;
+    background: #007BFF;
+    color: white;
+}
+
+.cta .btn {
+    margin-top: 15px;
+}
 </style> 
 
 <section class="hero"> 
@@ -184,5 +256,61 @@
     </div> 
 
 </section> 
+<section class="how-it-works">
 
+    <h2>How It Works</h2>
+    <p class="subtitle">Simple steps to find your helper</p>
+
+    <div class="steps">
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Sign Up</h3>
+            <p>Create your account as a customer or helper.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Find or Apply</h3>
+            <p>Customers find helpers, helpers see requests.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Connect</h3>
+            <p>Accept requests and start working together.</p>
+        </div>
+
+    </div>
+
+</section>
+<section class="trust">
+
+    <h2>Why Choose Us</h2>
+    <p class="subtitle">Your safety and trust is our priority</p>
+
+    <div class="trust-grid">
+
+        <div class="trust-card">
+            <h3>✔ Verified Helpers</h3>
+            <p>All helpers go through Aadhaar verification.</p>
+        </div>
+
+        <div class="trust-card">
+            <h3>✔ Secure Platform</h3>
+            <p>Your data is safe and protected with us.</p>
+        </div>
+
+        <div class="trust-card">
+            <h3>✔ Easy Communication</h3>
+            <p>Connect easily without sharing personal details.</p>
+        </div>
+
+    </div>
+
+</section>
+<section class="cta">
+    <h2>Start Finding Helpers Today</h2>
+    <a href="#" class="btn customer">Get Started</a>
+</section>
 {% endblock %}
