@@ -122,75 +122,250 @@
 }
 /* HOW IT WORKS */
 .how-it-works {
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
-    background: white;
+    background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
 }
 
 .how-it-works h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    color: #0B3052;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+
+.how-it-works .subtitle {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin-bottom: 50px;
 }
 
 .steps {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 40px;
     flex-wrap: wrap;
-    margin-top: 40px;
+    margin-top: 50px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .step {
-    background: #f9fafb;
-    padding: 20px;
-    border-radius: 10px;
-    width: 250px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    background: white;
+    padding: 40px 30px;
+    border-radius: 16px;
+    width: 280px;
+    box-shadow: 0 10px 30px rgba(11, 48, 82, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.step:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(11, 48, 82, 0.15);
+    border-color: #4EA72E;
 }
 
 .step-number {
-    width: 40px;
-    height: 40px;
-    background: #28A745;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4EA72E 0%, #3d8624 100%);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: auto;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-weight: bold;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 20px rgba(78, 167, 46, 0.3);
 }
+
+.step h3 {
+    font-size: 1.3rem;
+    color: #0B3052;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.step p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Connection lines between steps */
+.steps::after {
+    content: "";
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 100px);
+    height: 3px;
+    background: linear-gradient(90deg, #4EA72E 0%, #4EA72E 50%, transparent 50%);
+    z-index: -1;
+}
+
 .trust {
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
-    background: #f9fafb;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.trust h2 {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    color: #0B3052;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+
+.trust .subtitle {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin-bottom: 50px;
 }
 
 .trust-grid {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
     flex-wrap: wrap;
-    margin-top: 40px;
+    margin-top: 50px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .trust-card {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 260px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    padding: 35px 30px;
+    border-radius: 16px;
+    width: 280px;
+    box-shadow: 0 10px 30px rgba(11, 48, 82, 0.08);
+    transition: all 0.3s ease;
+    border-top: 4px solid #4EA72E;
+    position: relative;
+    overflow: hidden;
 }
+
+.trust-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #4EA72E 0%, #4EA72E 100%);
+    opacity: 0.1;
+    border-radius: 50%;
+    transform: translate(20px, -20px);
+}
+
+.trust-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(11, 48, 82, 0.15);
+    border-top-color: #3d8624;
+}
+
+.trust-card h3 {
+    font-size: 1.2rem;
+    color: #0B3052;
+    margin-bottom: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.trust-card h3::before {
+    content: "✓";
+    color: #4EA72E;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.trust-card p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
 .cta {
-    padding: 60px 20px;
+    padding: 100px 20px;
     text-align: center;
-    background: #007BFF;
+    background: linear-gradient(135deg, #0B3052 0%, #134675 100%);
     color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(78, 167, 46, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(100px, -100px);
+}
+
+.cta::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(78, 167, 46, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-100px, 100px);
+}
+
+.cta h2 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 1;
+}
+
+.cta p {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 1;
 }
 
 .cta .btn {
-    margin-top: 15px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+    background-color: #4EA72E;
+    padding: 14px 40px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 2px solid #4EA72E;
+}
+
+.cta .btn:hover {
+    background-color: white;
+    color: #0B3052;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(78, 167, 46, 0.4);
 }
 </style> 
 
@@ -257,60 +432,59 @@
 
 </section> 
 <section class="how-it-works">
+    <div class="max-w-6xl mx-auto">
+        <h2>How It Works</h2>
+        <p class="subtitle">Simple steps to find your perfect helper in minutes</p>
 
-    <h2>How It Works</h2>
-    <p class="subtitle">Simple steps to find your helper</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Create Account</h3>
+                <p>Sign up as a customer or helper in just a few minutes with basic information.</p>
+            </div>
 
-    <div class="steps">
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Find or Apply</h3>
+                <p>Browse verified helpers or apply to customer requests that match your skills.</p>
+            </div>
 
-        <div class="step">
-            <div class="step-number">1</div>
-            <h3>Sign Up</h3>
-            <p>Create your account as a customer or helper.</p>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Connect & Work</h3>
+                <p>Connect securely and start your working relationship with confidence.</p>
+            </div>
         </div>
-
-        <div class="step">
-            <div class="step-number">2</div>
-            <h3>Find or Apply</h3>
-            <p>Customers find helpers, helpers see requests.</p>
-        </div>
-
-        <div class="step">
-            <div class="step-number">3</div>
-            <h3>Connect</h3>
-            <p>Accept requests and start working together.</p>
-        </div>
-
     </div>
-
 </section>
 <section class="trust">
+    <div class="max-w-6xl mx-auto">
+        <h2>Why Choose Us</h2>
+        <p class="subtitle">Your safety and trust is our priority</p>
 
-    <h2>Why Choose Us</h2>
-    <p class="subtitle">Your safety and trust is our priority</p>
+        <div class="trust-grid">
+            <div class="trust-card">
+                <h3>Verified Helpers</h3>
+                <p>All helpers undergo thorough Aadhaar verification and background checks.</p>
+            </div>
 
-    <div class="trust-grid">
+            <div class="trust-card">
+                <h3>Secure Platform</h3>
+                <p>Your personal data is encrypted and protected with industry-standard security.</p>
+            </div>
 
-        <div class="trust-card">
-            <h3>✔ Verified Helpers</h3>
-            <p>All helpers go through Aadhaar verification.</p>
+            <div class="trust-card">
+                <h3>Easy Communication</h3>
+                <p>Connect safely without sharing sensitive details until you're ready.</p>
+            </div>
         </div>
-
-        <div class="trust-card">
-            <h3>✔ Secure Platform</h3>
-            <p>Your data is safe and protected with us.</p>
-        </div>
-
-        <div class="trust-card">
-            <h3>✔ Easy Communication</h3>
-            <p>Connect easily without sharing personal details.</p>
-        </div>
-
     </div>
-
 </section>
 <section class="cta">
-    <h2>Start Finding Helpers Today</h2>
-    <a href="#" class="btn customer">Get Started</a>
+    <div class="max-w-2xl mx-auto">
+        <h2>Ready to Find Your Helper?</h2>
+        <p>Join thousands of satisfied customers and trusted helpers on Home Helper Finder</p>
+        <a href="#" class="btn customer">Get Started Now</a>
+    </div>
 </section>
 {% endblock %}
