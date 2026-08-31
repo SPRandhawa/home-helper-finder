@@ -1,21 +1,20 @@
 from django.db import migrations
-from django.contrib.auth.models import User
-
+import os
 
 def create_admin(apps, schema_editor):
-    """Create a superuser admin account"""
-    if not User.objects.filter(username='home-finder').exists():
-        User.objects.create_superuser(
-            username='home-finder',
-            email='admin@example.com',
-            password='Home@123Finder'
-        )
+    User = apps.get_model('auth', 'User')
 
+    username = os.environ.get("ADMIN_USERNAME")
+    email = os.environ.get("ADMIN_EMAIL")
+    password = os.environ.get("ADMIN_PASSWORD")
 
-def delete_admin(apps, schema_editor):
-    """Delete the admin user on rollback"""
-    User.objects.filter(username='home-finder').delete()
-
+    if username and password:
+        if not User.objects.filter(username=username).exists():
+            User.objects.create_superuser(
+                username=username,
+                email=email,
+                password=password
+            )
 
 class Migration(migrations.Migration):
 
@@ -24,5 +23,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_admin, delete_admin),
+        migrations.RunPython(create_admin),
     ]
