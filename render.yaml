@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: home-helper-finder
+    env: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn core.wsgi
+    preDeployCommand: python manage.py migrate
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.14
