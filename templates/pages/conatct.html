@@ -2,24 +2,45 @@
 
 {% block content %}
 
-<section class="contact">
-
-    <h2>Contact Us</h2>
+<section class="max-w-3xl py-8 sm:py-12">
+    <div class="mb-8">
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-green">Get in touch</p>
+        <h1 class="mt-3 text-4xl font-black text-navy">Contact Us</h1>
+        <p class="mt-4 rounded-lg border border-green/20 bg-green/10 px-4 py-3 text-sm font-semibold leading-6 text-navy">
+            Our team will reply within two to three working days.
+        </p>
+    </div>
 
     {% if success %}
-        <p style="color:green;">Message sent successfully!</p>
+        <p class="mb-6 rounded-lg border border-green/30 bg-green/10 px-4 py-3 font-semibold text-green-dark">
+            Message sent successfully!
+        </p>
     {% endif %}
 
-    <form method="POST">
+    <form method="POST" class="space-y-5 rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         {% csrf_token %}
 
-        <input type="text" name="name" placeholder="Your Name" required><br><br>
+        <div>
+            <label for="contact-name" class="mb-2 block text-sm font-bold text-navy">Your Name</label>
+            <input id="contact-name" type="text" name="name" placeholder="Enter your name" required
+                class="w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-800 outline-none transition focus:border-green focus:ring-2 focus:ring-green/20">
+        </div>
 
-        <input type="email" name="email" placeholder="Your Email" required><br><br>
+        <div>
+            <label for="contact-email" class="mb-2 block text-sm font-bold text-navy">Your Email</label>
+            <input id="contact-email" type="email" name="email" placeholder="you@example.com" required
+                class="w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-800 outline-none transition focus:border-green focus:ring-2 focus:ring-green/20">
+        </div>
 
-        <textarea name="problem" placeholder="Your Problem" required></textarea><br><br>
+        <div>
+            <label for="contact-problem" class="mb-2 block text-sm font-bold text-navy">How can we help?</label>
+            <textarea id="contact-problem" name="problem" placeholder="Tell us how we can help" required rows="6"
+                class="w-full resize-y rounded-lg border border-slate-300 px-4 py-3 text-slate-800 outline-none transition focus:border-green focus:ring-2 focus:ring-green/20"></textarea>
+        </div>
 
-        <button type="submit">Send</button>
+        <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-navy px-6 py-3 font-bold text-white transition hover:bg-navy-light focus:outline-none focus:ring-2 focus:ring-navy/30">
+            Send Message
+        </button>
     </form>
 
 </section>

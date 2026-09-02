@@ -550,6 +550,24 @@
     word-wrap: break-word;
 }
 
+.message-bubble p {
+    margin: 0 0 8px;
+}
+
+.message-bubble p:last-child {
+    margin-bottom: 0;
+}
+
+.message-bubble ul,
+.message-bubble ol {
+    margin: 0 0 8px;
+    padding-left: 20px;
+}
+
+.message-bubble li:last-child {
+    margin-bottom: 0;
+}
+
 .chat-message.bot .message-bubble {
     background: white;
     color: #0B3052;
@@ -1086,13 +1104,66 @@
         
         const bubbleDiv = document.createElement('div');
         bubbleDiv.className = 'message-bubble';
-        bubbleDiv.textContent = message;
+        if (isUser) {
+            bubbleDiv.textContent = message;
+        } else {
+            addFormattedBotMessage(bubbleDiv, message);
+        }
         
         messageDiv.appendChild(bubbleDiv);
         chatbotMessages.appendChild(messageDiv);
         
         // Scroll to bottom
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    function addFormattedBotMessage(container, message) {
+        const lines = message.split(/\r?\n/);
+        let currentList = null;
+        let paragraphLines = [];
+
+        function flushParagraph() {
+            if (paragraphLines.length) {
+                const paragraph = document.createElement('p');
+                paragraph.textContent = paragraphLines.join(' ');
+                container.appendChild(paragraph);
+                paragraphLines = [];
+            }
+        }
+
+        function finishList() {
+            if (currentList) {
+                container.appendChild(currentList);
+                currentList = null;
+            }
+        }
+
+        lines.forEach((line) => {
+            const trimmedLine = line.trim();
+            const numberedItem = trimmedLine.match(/^\d+[.)]\s+(.+)$/);
+            const bulletItem = trimmedLine.match(/^[-*•]\s+(.+)$/);
+
+            if (numberedItem || bulletItem) {
+                flushParagraph();
+                const listType = numberedItem ? 'ol' : 'ul';
+                if (!currentList || currentList.tagName.toLowerCase() !== listType) {
+                    finishList();
+                    currentList = document.createElement(listType);
+                }
+                const listItem = document.createElement('li');
+                listItem.textContent = (numberedItem || bulletItem)[1];
+                currentList.appendChild(listItem);
+            } else if (trimmedLine) {
+                finishList();
+                paragraphLines.push(trimmedLine);
+            } else {
+                flushParagraph();
+                finishList();
+            }
+        });
+
+        flushParagraph();
+        finishList();
     }
 
     function showTypingIndicator() {
