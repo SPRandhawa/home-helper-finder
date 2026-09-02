@@ -14,11 +14,11 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'contact.html', {'success': True})
+            return render(request, 'pages/conatct.html', {'success': True})
     else:
         form = ContactForm()
 
-    return render(request, 'contact.html', {'form': form})
+    return render(request, 'pages/conatct.html', {'form': form})
 
 
 def help_guide(request):
