@@ -1,7 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}Contact | Home Helper Finder{% endblock %}
-
 {% block content %}
-<section class="max-w-2xl py-10"><p class="text-sm font-bold uppercase tracking-[0.2em] text-green">Contact us</p><h1 class="mt-3 text-4xl font-black text-navy">We are here to help.</h1><p class="mt-5 text-lg leading-8 text-slate-600">For questions about accounts, helpers, or requests, contact our support team.</p><div class="mt-8 rounded-xl bg-white p-6 shadow-sm"><p class="font-bold text-navy"><i class="fa-solid fa-envelope mr-2 text-green"></i>support@homehelperfinder.com</p><p class="mt-3 font-bold text-navy"><i class="fa-solid fa-phone mr-2 text-green"></i>+1 (800) 555-HOME</p></div></section>
+
+<section class="contact">
+
+    <h2>Contact Us</h2>
+
+    {% if success %}
+        <p style="color:green;">Message sent successfully!</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="name" placeholder="Your Name" required><br><br>
+
+        <input type="email" name="email" placeholder="Your Email" required><br><br>
+
+        <textarea name="problem" placeholder="Your Problem" required></textarea><br><br>
+
+        <button type="submit">Send</button>
+    </form>
+
+</section>
+
 {% endblock %}

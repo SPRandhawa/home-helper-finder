@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from pages.views import contact
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')),
@@ -25,4 +25,10 @@ urlpatterns = [
     path('customers/', include('customers.urls')),
     path('requests/', include('requests_app.urls')),
     path('chatbot/', include('chatbot.urls')),
+    
+]
+
+
+urlpatterns += [
+    path('contact/', contact, name='contact'),
 ]

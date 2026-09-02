@@ -1012,6 +1012,7 @@
         </div>
 
         <div class="chatbot-input-area">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input 
                 type="text" 
                 class="chatbot-input" 
@@ -1053,7 +1054,9 @@
         chatbotBadge.style.display = 'flex';
     });
 
-    // Sample bot responses
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    // Built-in answers are returned immediately; unknown questions are saved for admin review.
     const botResponses = {
         'hello': 'Hello! 👋 How can I assist you today?',
         'hi': 'Hi there! 😊 What can I help you with?',
@@ -1074,7 +1077,7 @@
             }
         }
         
-        return botResponses['default'];
+        return null;
     }
 
     function addMessage(message, isUser) {
@@ -1124,11 +1127,31 @@
         // Show typing indicator
         showTypingIndicator();
 
-        // Simulate bot thinking time
-        setTimeout(() => {
-            removeTypingIndicator();
-            const response = getBotResponse(message);
-            addMessage(response, false);
+        setTimeout(async () => {
+            const builtInResponse = getBotResponse(message);
+            if (builtInResponse) {
+                removeTypingIndicator();
+                addMessage(builtInResponse, false);
+                return;
+            }
+
+            try {
+                const response = await fetch('{% url "chatbot:answer" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify({ question: message }),
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Request failed');
+                removeTypingIndicator();
+                addMessage(data.answer, false);
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage('I could not send that question right now. Please try again or contact our team.', false);
+            }
         }, 800);
     }
 

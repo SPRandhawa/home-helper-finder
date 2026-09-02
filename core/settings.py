@@ -85,11 +85,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 
 
+database_url = os.environ.get('DATABASE_URL')
 DATABASES = {
     'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL"),
+        database_url or f'sqlite:///{BASE_DIR / "db.sqlite3"}',
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=bool(database_url and database_url.startswith(('postgres', 'mysql'))),
     )
 }
 
