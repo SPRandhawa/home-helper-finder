@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib import messages
 from django.core.mail import send_mail
 
 from .models import Contact
@@ -20,7 +21,7 @@ class ContactAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
         if has_new_reply:
-            send_mail(
+            email_sent = send_mail(
                 subject='Reply from Home Helper Finder',
                 message=(
                     f'Hello {obj.name},\n\n'
@@ -30,5 +31,14 @@ class ContactAdmin(admin.ModelAdmin):
                 ),
                 from_email=None,
                 recipient_list=[obj.email],
-                fail_silently=False,
+                fail_silently=True,
             )
+            if request is not None:
+                if email_sent:
+                    self.message_user(request, 'Reply saved and email sent.', messages.SUCCESS)
+                else:
+                    self.message_user(
+                        request,
+                        'Reply saved, but the email could not be sent. Check the email settings.',
+                        messages.WARNING,
+                    )
