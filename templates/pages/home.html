@@ -1078,24 +1078,13 @@
     const botResponses = {
         'hello': 'Hello! 👋 How can I assist you today?',
         'hi': 'Hi there! 😊 What can I help you with?',
-        'help': 'I can help you with: Finding helpers, Understanding our services, Account questions, and more. What would you like to know?',
-        'services': 'We offer: Cleaning, Cooking, Babysitting, Laundry, Elder Care, Pet Care, and many more services! What interests you?',
-        'cost': 'Pricing varies based on the service and location. Please visit our services page or contact us for specific quotes.',
-        'how to sign up': 'It\'s easy! Click "Get Started Now" to create an account as a customer or helper. The process takes just a few minutes.',
-        'verification': 'All helpers go through Aadhaar verification and background checks for your safety.',
-        'default': 'Thanks for your question! For detailed assistance, please visit our Help Guide or Contact page. Our team is here to help!'
+        'bye': 'Goodbye! Have a great day!',
+        'thank you': 'You are welcome! 😊'
     };
 
     function getBotResponse(userMessage) {
-        const lowerMessage = userMessage.toLowerCase();
-        
-        for (let key in botResponses) {
-            if (lowerMessage.includes(key)) {
-                return botResponses[key];
-            }
-        }
-        
-        return null;
+        const cleanedMessage = userMessage.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+        return botResponses[cleanedMessage] || null;
     }
 
     function addMessage(message, isUser) {
