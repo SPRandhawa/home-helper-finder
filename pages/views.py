@@ -32,3 +32,7 @@ def search(request):
 
 def privacy(request):
 	return render(request, 'pages/privacy.html', {'active_page': 'privacy'})
+
+
+def terms(request):
+    return render(request, 'pages/terms.html', {'active_page': 'terms'})
