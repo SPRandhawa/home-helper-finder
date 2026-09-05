@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Help Guide | Home Helper Finder{% endblock %}
 
@@ -59,10 +60,11 @@
 
     .section-title {
       text-align: center;
-      color: #0f172a;
-      font-size: 1.9rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      margin-bottom: 12px;
+      color: #0B3052;
+      font-weight: 900;
+      letter-spacing: -0.5px;
     }
 
     .section-subtitle {
@@ -92,7 +94,8 @@
 
     .step-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08);
+      border-color: #22c55e;
+      box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.15);
     }
 
     .step-number {
@@ -207,6 +210,37 @@
       line-height: 1.6;
     }
 
+    /* ========== VIDEO GUIDES ========== */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .video-card {
+      background: white;
+      border-radius: 14px;
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+    }
+
+    .video-card h3 {
+      color: #0B3052;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .guide-video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #e2e8f0;
+      border-radius: 10px;
+    }
+
     /* ========== CTA ========== */
     .cta-section {
       text-align: center;
@@ -280,6 +314,10 @@
         grid-template-columns: 1fr;
       }
 
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
     }
   </style>
 </head>
@@ -288,8 +326,7 @@
 
   <!-- Hero -->
   <section class="page-hero">
-    <p class="section-label">Help Guide</p>
-    <h1>Everything starts with a simple request.</h1>
+    <h1><span style="color: #2563eb;">Everything starts with</span> <span style="color: #22c55e;">a simple request.</span></h1>
     <p class="hero-subtitle">
       Follow these easy steps to find the right helper or offer your services with confidence.
     </p>
@@ -383,6 +420,30 @@
       </div>
 
  
+  </section>
+
+  <!-- Video Guides -->
+  <section class="section" style="background: #f8fafc;">
+    <h2 class="section-title">Video Guides</h2>
+    <p class="section-subtitle">Watch a quick guide to learn how customers and helpers use the platform.</p>
+
+    <div class="video-grid">
+      <div class="video-card">
+        <h3>For Customers</h3>
+        <video class="guide-video" controls preload="metadata">
+          <source src="{% static 'videos/customer-guide.mp4' %}" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+      </div>
+
+      <div class="video-card">
+        <h3>For Helpers</h3>
+        <video class="guide-video" controls preload="metadata">
+          <source src="{% static 'videos/helper-guide.mp4' %}" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+      </div>
+    </div>
   </section>
 
   <!-- Call to Action -->

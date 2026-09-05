@@ -142,7 +142,7 @@
 
 <body class="bg-gray-50 min-h-screen flex flex-col font-sans text-slate-800 antialiased">
 
-<header class="bg-white border-b-2 border-green shadow-sm sticky top-0 z-50">
+<header class="bg-white sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20 gap-4 flex-wrap">
 
@@ -197,13 +197,13 @@
     {% block content %}{% endblock %}
 </main>
 
-<footer class="bg-navy text-white mt-auto border-t-4 border-green">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+<footer class="bg-navy text-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
 
             <div>
                 <span class="text-xl font-black">HOME <span class="text-green">HELPER</span></span>
-                <p class="text-gray-300 text-sm mt-2">
+                <p class="text-gray-300 text-sm mt-1">
                     Your Trusted Partner in Every Home.
                 </p>
             </div>
@@ -227,7 +227,7 @@
             </div>
  <!-- ✅ WHY CHOOSE US (RESTORED) -->
             <div>
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-green mb-4">Why Choose Us</h3>
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-green mb-2">Why Choose Us</h3>
                 <ul class="space-y-2 text-sm text-gray-300">
                     <li class="flex items-center gap-2">
                         <i class="fa-solid fa-location-dot text-green text-xs"></i>
@@ -246,8 +246,8 @@
 
             <!-- ✅ GET IN TOUCH (RESTORED) -->
             <div>
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-green mb-4">Get In Touch</h3>
-                <p class="text-sm text-gray-300 leading-relaxed">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-green mb-2">Get In Touch</h3>
+                <p class="text-sm text-gray-300 leading-normal">
                     For any inquiries or support, please visit our 
                     <a href="{% url 'pages:contact' %}" class="text-green hover:underline font-semibold">
                         Contact Page
@@ -257,6 +257,9 @@
 
         </div>
         </div>
+    </div>
+    <div class="border-t border-navy-light text-center text-sm text-gray-300 py-3">
+        &copy; 2026 Home Helper Finder. All rights reserved.
     </div>
 </footer>
 
