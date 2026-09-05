@@ -262,8 +262,24 @@
       <h2>13. Contact Us</h2>
       <p>
         If you have any questions about these Terms & Conditions, please contact us through our 
-        <a href="/contact/">Contact Page</a>.
+        <a href="{% url 'pages:contact' %}">Contact Page</a>.
       </p>
+
+      {% if auth_flow %}
+        <div class="mt-8 rounded-lg border border-green/30 bg-green/10 p-5">
+          <h2 class="!mt-0">Agree to continue</h2>
+          <p>Please review these Terms &amp; Conditions and our <a href="{% url 'pages:privacy' %}">Privacy Policy</a> before creating your {{ destination_name|lower }} account.</p>
+          <form method="post" action="{% url 'accounts:terms_consent' destination=destination %}" class="mt-4">
+            {% csrf_token %}
+            <label class="flex items-start gap-3 text-sm text-gray-700">
+              <input type="checkbox" name="terms_agreement" class="mt-1 h-4 w-4" required>
+              <span>I agree to the Terms &amp; Conditions and Privacy Policy.</span>
+            </label>
+            {% if consent_error %}<p class="mt-2 text-sm text-red-600">You must check the agreement box to continue.</p>{% endif %}
+            <button type="submit" class="mt-4 rounded-lg bg-green px-5 py-3 font-bold text-white hover:bg-green-dark">I Agree and Continue to Sign Up</button>
+          </form>
+        </div>
+      {% endif %}
 
     </div>
   </div>

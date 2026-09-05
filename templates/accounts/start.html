@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Continue to {{ destination_name }} | Home Helper Finder{% endblock %}
+
+{% block content %}
+<section class="max-w-xl mx-auto py-10 sm:py-16">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 text-center">
+        <p class="text-sm font-bold uppercase tracking-widest text-green">{{ destination_name }}</p>
+        <h1 class="mt-3 text-3xl sm:text-4xl font-black text-navy">Welcome back</h1>
+        <p class="mt-3 text-slate-600">Sign in to continue, or create a new account to get started.</p>
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+            <a href="{% url 'accounts:login' destination=destination %}" class="rounded-lg bg-navy px-5 py-3 font-bold text-white hover:bg-navy-light">Login</a>
+            <a href="{% url 'accounts:terms_consent' destination=destination %}" class="rounded-lg bg-green px-5 py-3 font-bold text-white hover:bg-green-dark">Sign Up</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

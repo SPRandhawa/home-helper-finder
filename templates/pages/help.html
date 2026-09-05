@@ -451,8 +451,8 @@
     <h2>Ready to get started?</h2>
     <p>Join Home Helper Finder today and experience a safer, simpler way to find or offer domestic help.</p>
     <div class="cta-buttons">
-      <a href="/customers/" class="btn btn-primary">Find Helpers</a>
-      <a href="/helpers/" class="btn btn-secondary">Join as Helper</a>
+      <a href="{% url 'accounts:login' destination='customer' %}" class="btn btn-primary">Find Helpers</a>
+      <a href="{% url 'accounts:login' destination='helper' %}" class="btn btn-secondary">Join as Helper</a>
     </div>
   </section>
 
