@@ -7,6 +7,7 @@ class Helper(models.Model):
     phone = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)
     address = models.TextField()
+    pincode = models.CharField(max_length=20, blank=True, null=True)
     marital_status = models.CharField(max_length=50)
     children = models.IntegerField()
     email = models.EmailField(blank=True, null=True)

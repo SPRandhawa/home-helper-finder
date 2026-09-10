@@ -85,6 +85,7 @@ def create_account(request, destination):
 				phone=request.POST.get('phone', ''),
 				gender=request.POST.get('gender', ''),
 				address=request.POST.get('address', ''),
+				pincode=request.POST.get('pincode', ''),
 				marital_status=request.POST.get('marital_status', ''),
 				children=int(request.POST.get('children', 0) or 0),
 				email=request.POST.get('email') or '',
