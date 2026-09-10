@@ -1,7 +1,537 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Create Account | Home Helper Finder{% endblock %}
+{% block extra_head %}
+<style>
+    .container {
+        max-width: 960px;
+        margin: 30px auto;
+        padding: 0;
+    }
+
+    form {
+        background: var(--panel-bg, #ffffff);
+        border: 1px solid var(--line, #dce7ea);
+        border-radius: 24px;
+        box-shadow: 0 16px 50px var(--shadow, rgba(13, 47, 73, 0.12));
+        padding: 30px;
+    }
+
+    /* Hide only the shared header search field on this page */
+    header .flex-1.max-w-xs {
+        display: none !important;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<h1>Create Your Helper Account</h1>
+
+{% if error %}
+<div class="alert alert-danger">
+    <strong>{{ error }}</strong>
+</div>
+{% endif %}
+
+<style>
+    :root {
+    --page-bg: #eef6f4;
+    --panel-bg: #ffffff;
+    --text: #102a43;
+    --muted: #586776;
+    --line: #dce7ea;
+    --primary: #0b3052;
+    --primary-soft: #eef6f8;
+    --blue: #2a7f9e;
+    --green: #78a38d;
+    --danger: #c96b6b;
+    --shadow: rgba(13, 47, 73, 0.12);
+}
+
+body {
+    background: var(--page-bg);
+    color: var(--text);
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.container {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 0;
+}
+
+form {
+    background: var(--panel-bg);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: 0 16px 50px var(--shadow);
+    padding: 30px;
+}
+
+.section {
+    margin-bottom: 30px;
+    padding: 24px 26px;
+    background: linear-gradient(180deg, var(--primary-soft), #ffffff);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.section:last-child {
+    margin-bottom: 0;
+    background: var(--primary);
+    border: none;
+}
+
+h2 {
+    color: var(--primary);
+    margin-bottom: 18px;
+    font-size: 24px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--green);
+    padding-bottom: 10px;
+}
+
+label {
+    display: block;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 13px;
+    margin: 16px 0 8px;
+    letter-spacing: 0.4px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 13px 14px;
+    margin: 8px 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #ffffff;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(42, 127, 158, 0.12);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--primary) 50%),
+        linear-gradient(135deg, var(--primary) 50%, transparent 50%);
+    background-position: calc(100% - 14px) calc(50% + 1px), calc(100% - 10px) calc(50% + 1px);
+    background-size: 4px 4px, 4px 4px;
+    background-repeat: no-repeat;
+}
+
+input[type="file"] {
+    background: var(--primary-soft);
+    padding: 12px;
+}
+
+input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    transform: translateY(2px);
+}
+
+.required {
+    color: var(--danger, #c96b6b);
+    margin-left: 4px;
+    font-weight: 800;
+}
+
+.skills-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skill-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.skill-row input {
+    flex: 1;
+}
+
+.add-skill-btn,
+.remove-skill-btn {
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.add-skill-btn {
+    background: var(--green);
+}
+
+.remove-skill-btn {
+    background: var(--danger);
+}
+
+.photo-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.photo-preview-wrap {
+    flex: 0 0 auto;
+}
+
+.photo-preview-circle {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 3px solid var(--green);
+    background: var(--primary-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.photo-preview-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-placeholder {
+    color: var(--primary);
+    font-size: 34px;
+}
+
+.photo-upload-field {
+    flex: 1 1 280px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--muted);
+}
+
+.password-strength {
+    height: 8px;
+    background: #dbe6e8;
+    margin-top: 4px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.password-strength div {
+    height: 100%;
+    width: 0%;
+    background: var(--danger);
+    border-radius: 20px;
+}
+
+p {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 10px 0 0;
+}
+
+button {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+button:hover {
+    background: var(--blue);
+    box-shadow: 0 12px 25px var(--shadow);
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.alert-danger {
+    background: #ffecef;
+    border: 1px solid var(--danger, #c96b6b);
+    color: var(--danger, #c96b6b);
+}
+
+.workdays-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.workday-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary-soft);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text);
+}
+
+.workday-chip input {
+    width: auto;
+    margin: 0;
+}
+
+.section:last-child {
+    padding: 18px 20px;
+}
+</style>
+
+<div class="container">
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+<!-- ================= PERSONAL DETAILS ================= -->
+<div class="section">
+<h2>Personal Details</h2>
+
+<div class="photo-upload-row">
+    <div class="photo-preview-wrap">
+        <div class="photo-preview-circle" id="photoPreviewCircle">
+            <span class="photo-placeholder"><i class="fa-solid fa-user"></i></span>
+        </div>
+    </div>
+
+    <div class="photo-upload-field">
+        <label>Profile Photo (clear image)<span class="required">*</span></label>
+        <input type="file" name="photo" id="photoInput" accept="image/*" required>
+    </div>
+</div>
+
+<label>Full Name<span class="required">*</span></label>
+<input type="text" name="name" placeholder="Full Name" required>
+
+<label>Age<span class="required">*</span></label>
+<input type="number" name="age" placeholder="Age" required>
+
+<label>Phone Number<span class="required">*</span></label>
+<input type="text" name="phone" placeholder="Phone Number" required>
+
+<label>Gender<span class="required">*</span></label>
+<select name="gender" required>
+<option value="">Select Gender</option>
+<option>Female</option>
+<option>Male</option>
+</select>
+
+<label>Address<span class="required">*</span></label>
+<textarea name="address" placeholder="Address" required></textarea>
+
+<label>Marital Status<span class="required">*</span></label>
+<select name="marital_status" required>
+<option value="">Marital Status</option>
+<option>Single</option>
+<option>Married</option>
+</select>
+
+<label>Number of Children<span class="required">*</span></label>
+<input type="number" name="children" placeholder="Number of Children" required>
+
+<label>Email (optional)</label>
+<input type="email" name="email" placeholder="Email (optional)">
+
+</div>
+
+<!-- ================= VERIFICATION DETAILS ================= -->
+<div class="section">
+<h2>Verification Details</h2>
+
+<label>Upload Latest Photo (will be deleted after verification)<span class="required">*</span></label>
+<input type="file" name="latest_photo" required>
+
+<label>Aadhaar Card Front<span class="required">*</span></label>
+<input type="file" name="aadhaar_front" required>
+
+<label>Aadhaar Card Back<span class="required">*</span></label>
+<input type="file" name="aadhaar_back" required>
+
+<label>
+<input type="checkbox" required> I confirm details are correct <span class="required">*</span>
+</label>
+
+</div>
+
+<!-- ================= WORK DETAILS ================= -->
+<div class="section">
+<h2>Work Details</h2>
+
+<label>Skills<span class="required">*</span></label>
+<div class="skills-wrapper">
+    <div class="skill-row">
+        <input type="text" name="skills" placeholder="Skills (cleaning, cooking...)" required>
+        <button type="button" class="add-skill-btn" title="Add skill">+</button>
+    </div>
+</div>
+
+<label>Work Time Duration<span class="required">*</span></label>
+<input type="text" name="work_time" placeholder="Work Time (10 AM - 12 PM)" required>
+
+<label>Working Days<span class="required">*</span></label>
+<div class="workdays-row">
+    <label class="workday-chip"><input type="checkbox" name="working_days" value="Monday"> Monday</label>
+    <label class="workday-chip"><input type="checkbox" name="working_days" value="Tuesday"> Tuesday</label>
+    <label class="workday-chip"><input type="checkbox" name="working_days" value="Wednesday"> Wednesday</label>
+    <label class="workday-chip"><input type="checkbox" name="working_days" value="Thursday"> Thursday</label>
+    <label class="workday-chip"><input type="checkbox" name="working_days" value="Friday"> Friday</label>
+    <label class="workday-chip"><input type="checkbox" name="working_days" value="Saturday"> Saturday</label>
+    <label class="workday-chip"><input type="checkbox" name="working_days" value="Sunday"> Sunday</label>
+</div>
+
+<label>Cooking Preference<span class="required">*</span></label>
+<select name="food_pref" required>
+<option value="">Cooking Preference</option>
+<option>Veg Only</option>
+<option>Non-Veg Only</option>
+<option>Both</option>
+</select>
+
+<label>Working Comfort<span class="required">*</span></label>
+<select name="work_pref" required>
+<option value="">Working Comfort</option>
+<option>Any Family</option>
+<option>Family without kids</option>
+<option>Family with kids</option>
+<option>No single male</option>
+</select>
+
+<label>Status</label>
+<select name="status">
+<option>Available</option>
+<option>Busy</option>
+</select>
+
+</div>
+
+<!-- ================= LOGIN DETAILS ================= -->
+<div class="section">
+<h2>Login Details</h2>
+
+<label>Username<span class="required">*</span></label>
+<input type="text" name="username" placeholder="Username" required>
+
+<label>Password<span class="required">*</span></label>
+<input type="password" name="password" id="password" placeholder="Password" required>
+
+<div class="password-strength">
+    <div id="strength-bar"></div>
+</div>
+
+<p>Password must be at least 8 characters, include letters & numbers</p>
+
+</div>
+
+<!-- ================= FINAL ================= -->
+<div class="section">
+<button type="submit">Submit</button>
+</div>
+
+</form>
+
+</div>
+
+<script>
+const photoInput = document.getElementById('photoInput');
+const photoPreviewCircle = document.getElementById('photoPreviewCircle');
+
+photoInput.addEventListener('change', function () {
+    if (!photoInput.files || !photoInput.files[0]) {
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        photoPreviewCircle.innerHTML = '<img src="' + event.target.result + '" alt="Profile Photo" />';
+    };
+    reader.readAsDataURL(photoInput.files[0]);
+});
+
+const skillsWrapper = document.querySelector('.skills-wrapper');
+const addSkillBtn = document.querySelector('.add-skill-btn');
+
+addSkillBtn.addEventListener('click', function () {
+    const row = document.createElement('div');
+    row.className = 'skill-row';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'skills';
+    input.placeholder = 'Another skill';
+    input.required = true;
+
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'remove-skill-btn';
+    remove.title = 'Remove skill';
+    remove.innerHTML = '&times;';
+    remove.addEventListener('click', function () {
+        row.remove();
+    });
+
+    row.appendChild(input);
+    row.appendChild(remove);
+    skillsWrapper.appendChild(row);
+});
+
+const password = document.getElementById("password");
+const bar = document.getElementById("strength-bar");
+
+password.addEventListener("input", function() {
+    let val = password.value;
+    let strength = 0;
+
+    if (val.length > 6) strength += 30;
+    if (/[A-Z]/.test(val)) strength += 20;
+    if (/[0-9]/.test(val)) strength += 20;
+    if (/[^A-Za-z0-9]/.test(val)) strength += 30;
+
+    bar.style.width = strength + "%";
+
+    if (strength < 40) bar.style.background = "red";
+    else if (strength < 70) bar.style.background = "orange";
+    else bar.style.background = "green";
+});
+</script>
+
 {% endblock %}
