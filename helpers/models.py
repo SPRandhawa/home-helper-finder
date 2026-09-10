@@ -2,6 +2,16 @@ from django.db import models
 
 
 class Helper(models.Model):
+    VERIFICATION_STATUS_PENDING = 'pending'
+    VERIFICATION_STATUS_VERIFIED = 'verified'
+    VERIFICATION_STATUS_REJECTED = 'rejected'
+
+    VERIFICATION_CHOICES = [
+        (VERIFICATION_STATUS_PENDING, 'Pending'),
+        (VERIFICATION_STATUS_VERIFIED, 'Verified'),
+        (VERIFICATION_STATUS_REJECTED, 'Rejected'),
+    ]
+
     name = models.CharField(max_length=200)
     age = models.IntegerField()
     phone = models.CharField(max_length=50)
@@ -24,6 +34,15 @@ class Helper(models.Model):
     latest_photo = models.ImageField(upload_to='helpers/latest_photos/', blank=True, null=True)
     aadhaar_front = models.ImageField(upload_to='helpers/aadhaar/', blank=True, null=True)
     aadhaar_back = models.ImageField(upload_to='helpers/aadhaar/', blank=True, null=True)
+
+    verification_status = models.CharField(
+        max_length=30,
+        choices=VERIFICATION_CHOICES,
+        default=VERIFICATION_STATUS_PENDING,
+    )
+    verification_notes = models.TextField(blank=True, default='')
+    verified_by = models.CharField(max_length=100, blank=True, null=True)
+    verified_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.name
