@@ -1,6 +1,7 @@
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 
@@ -38,6 +39,35 @@ def login_view(request, destination):
 	destination_data = _destination_data(destination)
 	if destination_data is None:
 		return redirect('pages:home')
+
+	if request.method == 'POST' and destination == 'helper':
+		username = (request.POST.get('username') or '').strip()
+		password = request.POST.get('password') or ''
+		helper = Helper.objects.filter(username=username).first()
+
+		# First try the linked Django auth user because all new helper records will create it.
+		if helper and helper.user:
+			user = authenticate(request, username=helper.user.username, password=password)
+			if user is not None:
+				login(request, user)
+				if helper.approved:
+					return redirect(DESTINATIONS['helper'])
+				return render(request, 'waiting.html')
+
+		# Backwards-compatible fallback for older helpers created before a linked auth user exists.
+		if helper and not helper.user and helper.password == password:
+			if helper.approved:
+				return redirect(DESTINATIONS['helper'])
+			return render(request, 'waiting.html')
+
+		form = AuthenticationForm(request, data=request.POST)
+		form.add_error(None, 'Invalid username or password for this helper account.')
+		return render(request, 'accounts/login.html', {
+			'form': form,
+			'destination': destination,
+			'destination_name': destination_data['name'],
+		})
+
 	form = AuthenticationForm(request, data=request.POST or None)
 	if request.method == 'POST' and form.is_valid():
 		login(request, form.get_user())
@@ -78,8 +108,10 @@ def create_account(request, destination):
 				'error': 'User already exists. Please choose another username.'
 			})
 
+		password = request.POST.get('password', '')
 		try:
-			Helper.objects.create(
+			user = User.objects.create_user(username=username, password=password)
+			helper = Helper.objects.create(
 				name=request.POST.get('name', ''),
 				age=int(request.POST.get('age', 0) or 0),
 				phone=request.POST.get('phone', ''),
@@ -95,8 +127,9 @@ def create_account(request, destination):
 				work_pref=request.POST.get('work_pref', ''),
 				status=request.POST.get('status') or 'Available',
 				username=username,
-				password=request.POST.get('password', ''),
+				password=password,
 				approved=False,
+				user=user,
 				photo=request.FILES.get('photo'),
 				latest_photo=request.FILES.get('latest_photo'),
 				aadhaar_front=request.FILES.get('aadhaar_front'),
