@@ -6,6 +6,14 @@ services:
     buildCommand: ./build.sh
     startCommand: gunicorn core.wsgi
     preDeployCommand: python manage.py migrate
+    disk:
+      name: home-helper-finder-media
+      mountPath: /var/lib/home-helper-finder-media
+      sizeGB: 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.14
+      - key: DEBUG
+        value: "False"
+      - key: MEDIA_ROOT
+        value: /var/lib/home-helper-finder-media

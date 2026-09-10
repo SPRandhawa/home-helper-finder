@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c@8vvvr5s2m(i0*8_2%xgluw134^e#6p_0qdh@q6486uiu)jc3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() in {'1', 'true', 'yes', 'on'}
 
 ALLOWED_HOSTS = os.environ.get(
     'ALLOWED_HOSTS',
@@ -135,7 +135,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = Path(os.environ.get('MEDIA_ROOT', str(BASE_DIR / 'media')))
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
