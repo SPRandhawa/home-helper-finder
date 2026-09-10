@@ -9,6 +9,19 @@ from .admin import ContactAdmin
 from .models import Contact
 
 
+class MediaUrlServingTest(SimpleTestCase):
+	def test_media_urls_are_served_when_debug_is_enabled(self):
+		with tempfile.TemporaryDirectory() as media_root:
+			photo = Path(media_root) / 'test.jpg'
+			photo.write_bytes(b'fake-image-bytes')
+
+			with override_settings(DEBUG=True, MEDIA_ROOT=media_root, MEDIA_URL='/media/'):
+				response = self.client.get('/media/test.jpg')
+
+			self.assertEqual(response.status_code, 200)
+			self.assertEqual(response.content, b'fake-image-bytes')
+
+
 @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 class ContactReplyEmailTests(TestCase):
 	def test_saving_new_reply_sends_email_and_marks_contact_replied(self):
