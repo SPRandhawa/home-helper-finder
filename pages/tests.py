@@ -1,7 +1,9 @@
+import tempfile
+from pathlib import Path
+
 from django.core import mail
 from django.contrib import admin
-from django.test import override_settings
-from django.test import TestCase
+from django.test import SimpleTestCase, override_settings, TestCase
 
 from .admin import ContactAdmin
 from .models import Contact
