@@ -1,28 +1,373 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block dashboard_title %}Dashboard{% endblock %} | Home Helper Finder</title>
-    {% block dashboard_head %}{% endblock %}
+
+    <title>{% block title %}Dashboard | Home Helper Finder{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0B3052',
+                            dark: '#072139',
+                            light: '#134675'
+                        },
+                        green: {
+                            DEFAULT: '#4EA72E',
+                            dark: '#3d8624',
+                            light: '#65be42'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f4f7fb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Dashboard Header */
+
+        .dashboard-header {
+            height: 76px;
+            background: #0B3052;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            color: white;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        }
+
+        /* Left Section */
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .menu-toggle {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 23px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .menu-toggle:hover {
+            color: #65be42;
+        }
+
+        .dashboard-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dashboard-brand img {
+            width: 43px;
+            height: 43px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 21px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .brand-name span {
+            color: #65be42;
+        }
+
+        /* Center Welcome */
+
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .welcome-text {
+            font-size: 21px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .welcome-text span {
+            color: #65be42;
+        }
+
+        /* Right Section */
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn {
+            background: #4EA72E;
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #3d8624;
+            transform: translateY(-2px);
+        }
+
+        /* Sidebar */
+
+        .dashboard-sidebar {
+            position: fixed;
+            top: 76px;
+            left: -270px;
+            width: 260px;
+            height: calc(100vh - 76px);
+            background: #072139;
+            color: white;
+            padding: 25px 20px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-heading {
+            font-size: 14px;
+            font-weight: 600;
+            color: #65be42;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        /* Main Content */
+
+        .dashboard-content {
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 900px) {
+
+            .header-center {
+                position: static;
+                transform: none;
+            }
+
+            .welcome-text {
+                font-size: 16px;
+            }
+
+            .brand-name {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .dashboard-header {
+                padding: 0 15px;
+            }
+
+            .header-left {
+                gap: 12px;
+            }
+
+            .dashboard-brand img {
+                width: 35px;
+                height: 35px;
+            }
+
+            .welcome-text {
+                font-size: 13px;
+            }
+
+            .logout-btn {
+                padding: 10px 12px;
+            }
+
+            .logout-btn span {
+                display: none;
+            }
+
+            .dashboard-content {
+                padding: 15px;
+            }
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+
 </head>
+
 <body>
-    <header>
-        <a href="{% url 'pages:home' %}">Home Helper Finder</a>
-        <nav aria-label="Website navigation">
-            <a href="{% url 'pages:home' %}">Home</a>
-            <a href="{% url 'pages:about' %}">About Us</a>
-            <a href="{% url 'pages:help' %}">Help Guide</a>
-            <a href="{% url 'pages:contact' %}">Contact</a>
-            {% block dashboard_navigation %}{% endblock %}
-        </nav>
+
+    <!-- DASHBOARD HEADER -->
+
+    <header class="dashboard-header">
+
+        <!-- LEFT -->
+
+        <div class="header-left">
+
+            <button class="menu-toggle"
+                    id="menuToggle"
+                    type="button"
+                    aria-label="Toggle navigation"
+                    aria-controls="dashboardSidebar"
+                    aria-expanded="false">
+
+                <i class="fas fa-bars"></i>
+
+            </button>
+
+            <div class="dashboard-brand">
+
+                <!-- Replace with your actual logo path -->
+                <img src="{% static 'images/logo.png' %}"
+                     alt="Home Helper Finder Logo">
+
+                <div class="brand-name">
+                    Home <span>Helper</span> Finder
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CENTER -->
+
+        <div class="header-center">
+
+            <div class="welcome-text">
+
+                Welcome Back,
+                <span>
+                    {% if request.user.first_name %}
+                        {{ request.user.first_name }}
+                    {% else %}
+                        {{ request.user.username }}
+                    {% endif %}
+                </span>!
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="header-right">
+
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+
+                <button type="submit" class="logout-btn">
+
+                    <i class="fas fa-right-from-bracket"></i>
+
+                    <span>Logout</span>
+
+                </button>
+
+            </form>
+
+        </div>
+
     </header>
-    <main>
-        {% block dashboard_content %}{% endblock %}
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+        <div class="sidebar-heading">
+            Dashboard Menu
+        </div>
+
+        <!-- Navigation options will be added later -->
+
+        {% block sidebar_menu %}
+        {% endblock %}
+
+    </aside>
+
+
+    <!-- MAIN DASHBOARD CONTENT -->
+
+    <main class="dashboard-content">
+
+        {% block dashboard_content %}
+        {% endblock %}
+
     </main>
-    <footer>
-        <a href="{% url 'pages:privacy' %}">Privacy Policy</a>
-        <a href="{% url 'pages:terms' %}">Terms &amp; Conditions</a>
-    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        const menuToggle = document.getElementById("menuToggle");
+
+        const sidebar = document.getElementById("dashboardSidebar");
+
+        menuToggle.addEventListener("click", function () {
+
+            sidebar.classList.toggle("active");
+
+            const isOpen = sidebar.classList.contains("active");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+
+            menuToggle.innerHTML = isOpen
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+
+        });
+
+    </script>
+
+    {% block extra_js %}{% endblock %}
+
 </body>
 </html>
