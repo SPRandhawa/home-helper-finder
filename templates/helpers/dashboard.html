@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helper Dashboard</title>
-</head>
-<body>
-</body>
-</html>
+{% extends 'dashboard.html' %}
+
+{% block dashboard_title %}Maid Dashboard{% endblock %}
+
+{% block dashboard_navigation %}
+    <a href="{% url 'helpers:list' %}">Dashboard</a>
+{% endblock %}
+
+{% block dashboard_content %}
+    <h1>Maid Dashboard</h1>
+{% endblock %}

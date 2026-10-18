@@ -62,7 +62,11 @@ class HelperDashboardTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'helpers/dashboard.html')
-        self.assertContains(response, 'Helper Dashboard')
+        self.assertTemplateUsed(response, 'dashboard.html')
+        self.assertContains(response, 'Home Helper Finder')
+        self.assertContains(response, 'Maid Dashboard')
+        self.assertContains(response, reverse('pages:home'))
+        self.assertContains(response, reverse('pages:help'))
         self.assertNotContains(response, 'Dashboard Helper')
 
     def test_unverified_helper_is_shown_waiting_page_on_dashboard(self):

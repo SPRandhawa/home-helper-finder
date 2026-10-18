@@ -1,0 +1,12 @@
+{% extends 'dashboard.html' %}
+
+{% block dashboard_title %}Customer Dashboard{% endblock %}
+
+{% block dashboard_navigation %}
+    <a href="{% url 'customers:dashboard' %}">Dashboard</a>
+    <a href="{% url 'requests:list' %}">My Requests</a>
+{% endblock %}
+
+{% block dashboard_content %}
+    <h1>Customer Dashboard</h1>
+{% endblock %}
