@@ -17,21 +17,18 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 from django.urls import include, path
-from pages.views import contact
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')),
     path('accounts/', include('accounts.urls')),
+    path('logout/', LogoutView.as_view(next_page='pages:home'), name='logout'),
     path('helpers/', include('helpers.urls')),
     path('customers/', include('customers.urls')),
     path('requests/', include('requests_app.urls')),
     path('chatbot/', include('chatbot.urls')),
-]
-
-urlpatterns += [
-    path('contact/', contact, name='contact'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
