@@ -14,6 +14,9 @@ def dashboard(request):
 		'eyebrow': 'Customer space',
 		'heading': 'Organize help for your home',
 		'intro': 'Search for helpers, send requests, and keep track of your connections in one place.',
+		'account_details': [
+			('Username', request.user.get_username()),
+		],
 		'actions': [
 			{'label': 'Find a helper', 'url_name': 'helpers:list'},
 			{'label': 'New request', 'url_name': 'requests:create'},
