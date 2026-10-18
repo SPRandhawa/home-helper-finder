@@ -1,8 +1,8 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.shortcuts import redirect, render
 
 from helpers.models import Helper
@@ -84,6 +84,17 @@ def create_account(request, destination):
 	if not request.session.get(f'signup_consent_{destination}'):
 		return redirect('accounts:terms_consent', destination=destination)
 
+	form = UserCreationForm(
+		request.POST if request.method == 'POST' and destination == 'customer' else None
+	)
+	if request.method == 'POST' and destination == 'customer':
+		if form.is_valid():
+			user = form.save()
+			login(request, user)
+			request.session.pop(f'signup_consent_{destination}', None)
+			return redirect(destination_data['url'])
+		return render(request, 'accounts/create_customer.html', {'form': form})
+
 	if request.method == 'POST' and destination == 'helper':
 		username = request.POST.get('username', '').strip()
 		if Helper.objects.filter(username=username).exists():
@@ -97,37 +108,39 @@ def create_account(request, destination):
 
 		password = request.POST.get('password', '')
 		try:
-			user = User.objects.create_user(username=username, password=password)
-			Helper.objects.create(
-				name=request.POST.get('name', ''),
-				age=int(request.POST.get('age', 0) or 0),
-				phone=request.POST.get('phone', ''),
-				gender=request.POST.get('gender', ''),
-				address=request.POST.get('address', ''),
-				pincode=request.POST.get('pincode', ''),
-				marital_status=request.POST.get('marital_status', ''),
-				children=int(request.POST.get('children', 0) or 0),
-				email=request.POST.get('email') or '',
-				skills=request.POST.get('skills', ''),
-				work_time=request.POST.get('work_time', ''),
-				food_pref=request.POST.get('food_pref', ''),
-				work_pref=request.POST.get('work_pref', ''),
-				status=request.POST.get('status') or 'Available',
-				username=username,
-				password=password,
-				approved=False,
-				photo=request.FILES.get('photo'),
-				latest_photo=request.FILES.get('latest_photo'),
-				aadhaar_front=request.FILES.get('aadhaar_front'),
-				aadhaar_back=request.FILES.get('aadhaar_back'),
-			)
+			with transaction.atomic():
+				user = User.objects.create_user(username=username, password=password)
+				Helper.objects.create(
+					name=request.POST.get('name', ''),
+					age=int(request.POST.get('age', 0) or 0),
+					phone=request.POST.get('phone', ''),
+					gender=request.POST.get('gender', ''),
+					address=request.POST.get('address', ''),
+					pincode=request.POST.get('pincode', ''),
+					marital_status=request.POST.get('marital_status', ''),
+					children=int(request.POST.get('children', 0) or 0),
+					email=request.POST.get('email') or '',
+					skills=request.POST.get('skills', ''),
+					work_time=request.POST.get('work_time', ''),
+					food_pref=request.POST.get('food_pref', ''),
+					work_pref=request.POST.get('work_pref', ''),
+					status=request.POST.get('status') or 'Available',
+					username=username,
+					password=user.password,
+					approved=False,
+					photo=request.FILES.get('photo'),
+					latest_photo=request.FILES.get('latest_photo'),
+					aadhaar_front=request.FILES.get('aadhaar_front'),
+					aadhaar_back=request.FILES.get('aadhaar_back'),
+				)
 			return render(request, 'waiting.html')
 		except IntegrityError:
 			return render(request, f'accounts/create_{destination}.html', {
 				'error': 'User already exists. Please choose another username.'
 			})
 
-	return render(request, f'accounts/create_{destination}.html')
+	context = {'form': form} if destination == 'customer' else {}
+	return render(request, f'accounts/create_{destination}.html', context)
 
 @login_required(login_url='/accounts/start/customer/')
 def dashboard(request):
