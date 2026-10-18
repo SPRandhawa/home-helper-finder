@@ -43,6 +43,9 @@
             margin: 0;
             background: #f4f7fb;
             font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Dashboard Header */
@@ -181,6 +184,7 @@
         .dashboard-content {
             padding: 30px;
             transition: margin-left 0.3s ease;
+            flex: 1;
         }
 
         /* Responsive */
@@ -341,6 +345,64 @@
         {% endblock %}
 
     </main>
+
+    <footer class="bg-navy border-t-4 border-green text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+                <div>
+                    <a href="{% url 'pages:home' %}" class="text-xl font-black">HOME <span class="text-green">HELPER</span></a>
+                    <p class="text-gray-300 text-sm mt-1">Your Trusted Partner in Every Home.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-green mb-2">Navigation</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="{% url 'pages:home' %}">Home</a></li>
+                        <li><a href="{% url 'pages:about' %}">About</a></li>
+                        <li><a href="{% url 'pages:help' %}">Help Guide</a></li>
+                        <li><a href="{% url 'pages:contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-green mb-2">Policies</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="{% url 'pages:privacy' %}">Privacy Policy</a></li>
+                        <li><a href="{% url 'pages:terms' %}">Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-green mb-2">Why Choose Us</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-green text-xs"></i>
+                            <span>Find Nearby Helpers</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-shield-check text-green text-xs"></i>
+                            <span>Verified Profiles</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-handshake text-green text-xs"></i>
+                            <span>Trusted Community</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-green mb-2">Get In Touch</h3>
+                    <p class="text-sm text-gray-300 leading-normal">
+                        For any inquiries or support, please visit our
+                        <a href="{% url 'pages:contact' %}" class="text-green hover:underline font-semibold">Contact Page</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-navy-light text-center text-sm text-gray-300 py-3">
+            &copy; 2026 Home Helper Finder. All rights reserved.
+        </div>
+    </footer>
 
 
     <!-- JAVASCRIPT -->
