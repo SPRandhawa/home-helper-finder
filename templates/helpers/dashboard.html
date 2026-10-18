@@ -1,11 +1,13 @@
-{% extends 'dashboard.html' %}
+{% extends 'app_dashboard.html' %}
 
-{% block dashboard_title %}Maid Dashboard{% endblock %}
+{% block title %}Helper Dashboard{% endblock %}
 
-{% block dashboard_navigation %}
-    <a href="{% url 'helpers:list' %}">Dashboard</a>
+{% block sidebar_menu %}
+    <!-- Customer navigation options later -->
 {% endblock %}
 
 {% block dashboard_content %}
-    <h1>Maid Dashboard</h1>
+
+    <!-- Customer dashboard content here -->
+
 {% endblock %}
