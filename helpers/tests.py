@@ -34,7 +34,7 @@ class HelperPincodeModelTest(TestCase):
 
 
 class HelperDashboardTests(TestCase):
-    def test_verified_helper_dashboard_displays_saved_profile(self):
+    def test_verified_helper_sees_empty_dashboard(self):
         user = User.objects.create_user(username='dashboard_helper', password='secret123')
         Helper.objects.create(
             name='Dashboard Helper',
@@ -61,9 +61,9 @@ class HelperDashboardTests(TestCase):
         response = self.client.get(reverse('helpers:list'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(('Name', 'Dashboard Helper'), response.context['account_details'])
-        self.assertIn(('Pincode', '560001'), response.context['account_details'])
-        self.assertContains(response, 'Dashboard Helper')
+        self.assertTemplateUsed(response, 'helpers/dashboard.html')
+        self.assertContains(response, 'Helper Dashboard')
+        self.assertNotContains(response, 'Dashboard Helper')
 
     def test_unverified_helper_is_shown_waiting_page_on_dashboard(self):
         user = User.objects.create_user(username='pending_dashboard_helper', password='secret123')
