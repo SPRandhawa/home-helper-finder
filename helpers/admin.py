@@ -50,6 +50,12 @@ class HelperAdmin(admin.ModelAdmin):
         }),
     )
 
+    def save_model(self, request, obj, form, change):
+        obj.approved = (
+            obj.verification_status == Helper.VERIFICATION_STATUS_VERIFIED
+        )
+        super().save_model(request, obj, form, change)
+
     def photo_preview(self, obj):
         return self._preview_image(obj.photo)
 
@@ -92,6 +98,7 @@ class HelperAdmin(admin.ModelAdmin):
     def mark_verified(self, request, queryset):
         queryset.update(
             verification_status=Helper.VERIFICATION_STATUS_VERIFIED,
+            approved=True,
             verified_by=getattr(request.user, 'username', 'admin'),
             verified_at=timezone.now(),
         )
@@ -100,6 +107,7 @@ class HelperAdmin(admin.ModelAdmin):
     def mark_rejected(self, request, queryset):
         queryset.update(
             verification_status=Helper.VERIFICATION_STATUS_REJECTED,
+            approved=False,
             verified_by=getattr(request.user, 'username', 'admin'),
             verified_at=timezone.now(),
         )
