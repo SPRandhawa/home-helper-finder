@@ -29,6 +29,7 @@ class HelperApprovalLoginFlowTests(TestCase):
             username='helper_pending',
             password='secret123',
             approved=False,
+            verification_status=Helper.VERIFICATION_STATUS_PENDING,
         )
 
         response = self.client.post(
@@ -60,11 +61,44 @@ class HelperApprovalLoginFlowTests(TestCase):
             username='helper_approved',
             password='secret123',
             approved=True,
+            verification_status=Helper.VERIFICATION_STATUS_VERIFIED,
         )
 
         response = self.client.post(
             reverse('accounts:login', args=['helper']),
             {'username': 'helper_approved', 'password': 'secret123'},
+            follow=False,
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('helpers:list'))
+
+    def test_verified_status_allows_login_even_if_approved_flag_is_false(self):
+        User.objects.create_user(username='helper_verified', password='secret123')
+        Helper.objects.create(
+            name='Verified Helper',
+            age=30,
+            phone='1234567891',
+            gender='Female',
+            address='Main Street',
+            pincode='560001',
+            marital_status='Single',
+            children=0,
+            email='helper@example.com',
+            skills='cleaning',
+            work_time='10 AM - 5 PM',
+            food_pref='Veg Only',
+            work_pref='Full Time',
+            status='Available',
+            username='helper_verified',
+            password='secret123',
+            approved=False,
+            verification_status=Helper.VERIFICATION_STATUS_VERIFIED,
+        )
+
+        response = self.client.post(
+            reverse('accounts:login', args=['helper']),
+            {'username': 'helper_verified', 'password': 'secret123'},
             follow=False,
         )
 

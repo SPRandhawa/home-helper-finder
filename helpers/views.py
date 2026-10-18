@@ -7,18 +7,22 @@ from .models import Helper
 @login_required(login_url='/accounts/start/helper/')
 def list_helpers(request):
 	helper = Helper.objects.filter(username=request.user.get_username()).first()
-	account_details = []
-	if helper is not None:
-		account_details = [
-			('Name', helper.name),
-			('Username', helper.username),
-			('Phone', helper.phone),
-			('Email', helper.email),
-			('Pincode', helper.pincode),
-			('Skills', helper.skills),
-			('Availability', helper.status),
-			('Verification', helper.get_verification_status_display()),
-		]
+	if (
+		helper is None
+		or helper.verification_status != Helper.VERIFICATION_STATUS_VERIFIED
+	):
+		return render(request, 'waiting.html')
+
+	account_details = [
+		('Name', helper.name),
+		('Username', helper.username),
+		('Phone', helper.phone),
+		('Email', helper.email),
+		('Pincode', helper.pincode),
+		('Skills', helper.skills),
+		('Availability', helper.status),
+		('Verification', helper.get_verification_status_display()),
+	]
 
 	return render(request, 'app_dashboard.html', {
 		'active_page': 'helpers',

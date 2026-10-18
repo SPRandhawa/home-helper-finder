@@ -47,9 +47,10 @@ def login_view(request, destination):
 
 		if destination == 'helper':
 			helper = Helper.objects.filter(username=user.username).first()
-			if helper is None:
-				return redirect(DESTINATIONS[destination])
-			if not helper.approved:
+			if (
+				helper is None
+				or helper.verification_status != Helper.VERIFICATION_STATUS_VERIFIED
+			):
 				return render(request, 'waiting.html')
 			return redirect(DESTINATIONS[destination])
 

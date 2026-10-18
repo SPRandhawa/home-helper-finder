@@ -34,7 +34,7 @@ class HelperPincodeModelTest(TestCase):
 
 
 class HelperDashboardTests(TestCase):
-    def test_dashboard_displays_saved_helper_profile(self):
+    def test_verified_helper_dashboard_displays_saved_profile(self):
         user = User.objects.create_user(username='dashboard_helper', password='secret123')
         Helper.objects.create(
             name='Dashboard Helper',
@@ -53,7 +53,8 @@ class HelperDashboardTests(TestCase):
             status='Available',
             username='dashboard_helper',
             password=user.password,
-            approved=False,
+            approved=True,
+            verification_status=Helper.VERIFICATION_STATUS_VERIFIED,
         )
         self.client.force_login(user)
 
@@ -63,6 +64,34 @@ class HelperDashboardTests(TestCase):
         self.assertIn(('Name', 'Dashboard Helper'), response.context['account_details'])
         self.assertIn(('Pincode', '560001'), response.context['account_details'])
         self.assertContains(response, 'Dashboard Helper')
+
+    def test_unverified_helper_is_shown_waiting_page_on_dashboard(self):
+        user = User.objects.create_user(username='pending_dashboard_helper', password='secret123')
+        Helper.objects.create(
+            name='Pending Dashboard Helper',
+            age=30,
+            phone='1234567892',
+            gender='Female',
+            address='Main Street',
+            pincode='560001',
+            marital_status='Single',
+            children=0,
+            skills='cleaning',
+            work_time='10 AM - 5 PM',
+            food_pref='Veg Only',
+            work_pref='Any Family',
+            status='Available',
+            username='pending_dashboard_helper',
+            password=user.password,
+            approved=True,
+            verification_status=Helper.VERIFICATION_STATUS_PENDING,
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse('helpers:list'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'waiting.html')
 
 
 class HelperApprovalAdminTests(TestCase):
