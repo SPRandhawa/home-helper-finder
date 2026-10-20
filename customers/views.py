@@ -21,11 +21,11 @@ def register_customer_view(request):
             # Check if username or phone already exists
             if Customer.objects.filter(username=username).exists():
                 messages.error(request, 'Username already taken. Please choose another.')
-                return render(request, 'accounts/register_customer.html')
+                return render(request, 'accounts/create_customer.html')
 
             if Customer.objects.filter(phone=phone).exists():
                 messages.error(request, 'Phone number already registered.')
-                return render(request, 'accounts/register_customer.html')
+                return render(request, 'accounts/create_customer.html')
 
             # Create customer instance
             customer = Customer(
@@ -54,4 +54,4 @@ def register_customer_view(request):
         except Exception as e:
             messages.error(request, f'An error occurred: {str(e)}')
 
-    return render(request, 'accounts/register_customer.html')
+    return render(request, 'accounts/create_customer.html')
