@@ -1,9 +1,33 @@
 {% extends 'dashboard.html' %}
 
 {% block title %}Helper Dashboard{% endblock %}
+    {% block sidebar_menu %}
 
-{% block sidebar_menu %}
-    <!-- Customer navigation options later -->
+<a href="{% url 'helper_dashboard' %}" class="sidebar-link">
+    <i class="fas fa-th-large"></i>
+    <span>Dashboard</span>
+</a>
+
+<a href="{% url 'helper_profile' %}" class="sidebar-link">
+    <i class="fas fa-user"></i>
+    <span>My Profile</span>
+</a>
+
+<a href="{% url 'helper_jobs' %}" class="sidebar-link">
+    <i class="fas fa-briefcase"></i>
+    <span>Jobs & Requests</span>
+</a>
+
+<a href="{% url 'helper_schedule' %}" class="sidebar-link">
+    <i class="fas fa-calendar-alt"></i>
+    <span>My Schedule</span>
+</a>
+
+<a href="{% url 'helper_notifications' %}" class="sidebar-link">
+    <i class="fas fa-bell"></i>
+    <span>Notifications</span>
+</a>
+
 {% endblock %}
 
 {% block dashboard_content %}
