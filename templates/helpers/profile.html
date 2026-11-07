@@ -7,13 +7,17 @@
     <div class="mb-6">
         <p class="text-sm font-bold uppercase tracking-wider text-green">Helper account</p>
         <h1 class="mt-2 text-3xl font-bold text-navy">My Profile</h1>
-        <p class="mt-2 text-slate-600">The information you provided when you signed up.</p>
+        <p class="mt-2 text-slate-600">View and update your profile information.</p>
     </div>
 
     <div class="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
         <div class="mb-8 flex flex-wrap items-center gap-5 border-b border-slate-200 pb-6">
             {% if helper.photo %}
-                <img src="{{ helper.photo.url }}" alt="Profile photo of {{ helper.name }}" class="h-24 w-24 rounded-full object-cover">
+                <img src="{% url 'helpers:profile_photo' %}" alt="Profile photo of {{ helper.name }}" class="h-24 w-24 rounded-full border-2 border-green object-cover">
+            {% else %}
+                <div class="flex h-24 w-24 items-center justify-center rounded-full border-2 border-green bg-slate-100 text-3xl font-bold text-navy" aria-label="No profile photo uploaded">
+                    {{ helper.name|first|upper }}
+                </div>
             {% endif %}
             <div>
                 <h2 class="text-2xl font-bold text-navy">{{ helper.name }}</h2>
@@ -21,40 +25,44 @@
             </div>
         </div>
 
-        <dl class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-            <div><dt class="text-sm font-semibold text-slate-500">Age</dt><dd class="mt-1 text-slate-900">{{ helper.age }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Phone number</dt><dd class="mt-1 text-slate-900">{{ helper.phone }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Gender</dt><dd class="mt-1 text-slate-900">{{ helper.gender }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Email</dt><dd class="mt-1 text-slate-900">{{ helper.email|default:"Not provided" }}</dd></div>
-            <div class="sm:col-span-2"><dt class="text-sm font-semibold text-slate-500">Address</dt><dd class="mt-1 whitespace-pre-line text-slate-900">{{ helper.address }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Pincode</dt><dd class="mt-1 text-slate-900">{{ helper.pincode|default:"Not provided" }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Marital status</dt><dd class="mt-1 text-slate-900">{{ helper.marital_status }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Number of children</dt><dd class="mt-1 text-slate-900">{{ helper.children }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Skills</dt><dd class="mt-1 whitespace-pre-line text-slate-900">{{ helper.skills }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Work time</dt><dd class="mt-1 text-slate-900">{{ helper.work_time }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Working days</dt><dd class="mt-1 text-slate-900">{{ helper.working_days|join:", "|default:"Not provided" }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Cooking preference</dt><dd class="mt-1 text-slate-900">{{ helper.food_pref }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Working comfort</dt><dd class="mt-1 text-slate-900">{{ helper.work_pref }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Availability</dt><dd class="mt-1 text-slate-900">{{ helper.status|default:"Not provided" }}</dd></div>
-        </dl>
+        {% for message in messages %}
+            <p class="mb-5 rounded-lg bg-green-50 p-4 text-green-800">{{ message }}</p>
+        {% endfor %}
 
-        <div class="mt-8 border-t border-slate-200 pt-6">
-            <h2 class="text-lg font-bold text-navy">Signup uploads</h2>
-            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {% if helper.latest_photo %}
-                    <a href="{{ helper.latest_photo.url }}" target="_blank" rel="noopener" class="font-semibold text-green hover:underline">View latest photo</a>
-                {% endif %}
-                {% if helper.aadhaar_front %}
-                    <a href="{{ helper.aadhaar_front.url }}" target="_blank" rel="noopener" class="font-semibold text-green hover:underline">View Aadhaar front</a>
-                {% endif %}
-                {% if helper.aadhaar_back %}
-                    <a href="{{ helper.aadhaar_back.url }}" target="_blank" rel="noopener" class="font-semibold text-green hover:underline">View Aadhaar back</a>
-                {% endif %}
-                {% if not helper.latest_photo and not helper.aadhaar_front and not helper.aadhaar_back %}
-                    <p class="text-slate-600">No signup documents are available.</p>
-                {% endif %}
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="rounded-lg bg-red-50 p-4 text-red-700">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {% for field in form %}
+                    <div class="{% if field.name == 'working_days' or field.name == 'skills' %}sm:col-span-2{% endif %}">
+                        <label for="{{ field.id_for_label }}" class="mb-2 block text-sm font-semibold text-slate-700">{{ field.label }}</label>
+                        {% if field.name == 'working_days' %}
+                            <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                {% for checkbox in field %}
+                                    <label class="flex items-center gap-2 text-sm text-slate-700">{{ checkbox.tag }} {{ checkbox.choice_label }}</label>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p class="mt-1 text-sm text-red-700">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
-        </div>
+
+            <button type="submit" class="rounded-lg bg-green px-5 py-3 font-semibold text-white transition hover:bg-green-dark">Save changes</button>
+        </form>
+
+        <dl class="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 border-t border-slate-200 pt-6 sm:grid-cols-2">
+            <div><dt class="text-sm font-semibold text-slate-500">Gender</dt><dd class="mt-1 text-slate-900">{{ helper.gender }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Address</dt><dd class="mt-1 whitespace-pre-line text-slate-900">{{ helper.address }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Pincode</dt><dd class="mt-1 text-slate-900">{{ helper.pincode|default:"Not provided" }}</dd></div>
+        </dl>
     </div>
 </section>
 {% endblock %}

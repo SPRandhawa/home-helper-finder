@@ -7,4 +7,5 @@ app_name = 'helpers'
 urlpatterns = [
     path('', views.list_helpers, name='list'),
     path('profile/', views.helper_profile, name='profile'),
+    path('profile/photo/', views.profile_photo, name='profile_photo'),
 ]

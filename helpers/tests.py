@@ -102,12 +102,99 @@ class HelperDashboardTests(TestCase):
             '1234567893',
             'profile-helper@example.com',
             'Main Street',
-            'Monday, Wednesday',
+            'Monday',
+            'Wednesday',
             'Veg Only',
         ):
             self.assertContains(response, signup_value)
         self.assertNotContains(response, 'stored-secret')
         self.assertNotContains(response, 'verification_status')
+        self.assertNotContains(response, 'Signup uploads')
+        self.assertNotContains(response, 'Aadhaar front')
+
+    def test_helper_can_update_profile_fields_and_photo(self):
+        from io import BytesIO
+        import tempfile
+
+        from PIL import Image
+        from django.core.files.uploadedfile import SimpleUploadedFile
+
+        user = User.objects.create_user(username='editable_helper', password='secret123')
+        helper = Helper.objects.create(
+            name='Editable Helper',
+            age=30,
+            phone='1234567894',
+            gender='Female',
+            address='Main Street',
+            pincode='560001',
+            marital_status='Single',
+            children=0,
+            skills='cleaning',
+            work_time='10 AM - 5 PM',
+            working_days=['Monday'],
+            food_pref='Veg Only',
+            work_pref='Any Family',
+            status='Available',
+            username='editable_helper',
+            password='stored-secret',
+            verification_status=Helper.VERIFICATION_STATUS_VERIFIED,
+        )
+        self.client.force_login(user)
+
+        image_buffer = BytesIO()
+        Image.new('RGB', (1, 1), color='blue').save(image_buffer, format='PNG')
+        image_buffer.seek(0)
+
+        with tempfile.TemporaryDirectory() as media_root:
+            with self.settings(MEDIA_ROOT=media_root):
+                response = self.client.post(
+                    reverse('helpers:profile'),
+                    {
+                        'age': '35',
+                        'phone': '9876543210',
+                        'email': 'updated@example.com',
+                        'marital_status': 'Married',
+                        'children': '2',
+                        'skills': 'cleaning, cooking',
+                        'work_time': '9 AM - 3 PM',
+                        'working_days': ['Tuesday', 'Thursday'],
+                        'food_pref': 'Both',
+                        'work_pref': 'Family with kids',
+                        'status': 'Busy',
+                        'photo': SimpleUploadedFile(
+                            'profile.png',
+                            image_buffer.getvalue(),
+                            content_type='image/png',
+                        ),
+                    },
+                )
+
+                self.assertEqual(response.status_code, 302)
+                self.assertRedirects(response, reverse('helpers:profile'))
+                helper.refresh_from_db()
+                self.assertEqual(helper.age, 35)
+                self.assertEqual(helper.phone, '9876543210')
+                self.assertEqual(helper.email, 'updated@example.com')
+                self.assertEqual(helper.marital_status, 'Married')
+                self.assertEqual(helper.children, 2)
+                self.assertEqual(helper.skills, 'cleaning, cooking')
+                self.assertEqual(helper.work_time, '9 AM - 3 PM')
+                self.assertEqual(helper.working_days, ['Tuesday', 'Thursday'])
+                self.assertEqual(helper.food_pref, 'Both')
+                self.assertEqual(helper.work_pref, 'Family with kids')
+                self.assertEqual(helper.status, 'Busy')
+                self.assertTrue(helper.photo)
+
+                photo_response = self.client.get(reverse('helpers:profile_photo'))
+                self.assertEqual(photo_response.status_code, 200)
+                self.assertEqual(photo_response['Content-Type'], 'image/png')
+                photo_response.close()
+
+                profile_response = self.client.get(reverse('helpers:profile'))
+                self.assertContains(
+                    profile_response,
+                    reverse('helpers:profile_photo'),
+                )
 
     def test_unverified_helper_is_shown_waiting_page_on_dashboard(self):
         user = User.objects.create_user(username='pending_dashboard_helper', password='secret123')
