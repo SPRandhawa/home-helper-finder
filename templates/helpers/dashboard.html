@@ -4,26 +4,35 @@
 /* CSS for the sidebar menu */
 .sidebar-menu {
     list-style: none;
-    padding: 0;
+    padding: 10px 12px;
     margin: 0;
 }
 
 .sidebar-menu li {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .sidebar-link {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 15px;
+    padding: 11px 12px;
+    color: #ffffff;
     text-decoration: none;
+    font-size: 16px;
     border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 .sidebar-link i {
     width: 20px;
+    font-size: 17px;
     text-align: center;
+}
+
+.sidebar-link:hover {
+    background-color: #134675;
+    color: #ffffff;
 }
 <!--html-->
 {% block sidebar_menu %}
