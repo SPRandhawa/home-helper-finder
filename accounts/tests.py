@@ -167,6 +167,7 @@ class HelperSignupTests(TestCase):
                 'email': 'new-helper@example.com',
                 'skills': 'cleaning',
                 'work_time': '10 AM - 5 PM',
+                'working_days': ['Monday', 'Wednesday'],
                 'food_pref': 'Veg Only',
                 'work_pref': 'Any Family',
                 'status': 'Available',
@@ -179,6 +180,7 @@ class HelperSignupTests(TestCase):
         self.assertEqual(helper.password, user.password)
         self.assertNotEqual(helper.password, 'helper-password-123')
         self.assertFalse(helper.approved)
+        self.assertEqual(helper.working_days, ['Monday', 'Wednesday'])
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'waiting.html')
 

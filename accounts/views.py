@@ -123,6 +123,7 @@ def create_account(request, destination):
 					email=request.POST.get('email') or '',
 					skills=request.POST.get('skills', ''),
 					work_time=request.POST.get('work_time', ''),
+					working_days=request.POST.getlist('working_days'),
 					food_pref=request.POST.get('food_pref', ''),
 					work_pref=request.POST.get('work_pref', ''),
 					status=request.POST.get('status') or 'Available',

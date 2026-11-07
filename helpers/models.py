@@ -23,6 +23,7 @@ class Helper(models.Model):
     email = models.EmailField(blank=True, null=True)
     skills = models.TextField()
     work_time = models.CharField(max_length=100)
+    working_days = models.JSONField(default=list, blank=True)
     food_pref = models.CharField(max_length=50)
     work_pref = models.CharField(max_length=100)
     status = models.CharField(max_length=50, blank=True, null=True)

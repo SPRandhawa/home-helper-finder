@@ -69,6 +69,46 @@ class HelperDashboardTests(TestCase):
         self.assertContains(response, reverse('pages:help'))
         self.assertNotContains(response, 'Dashboard Helper')
 
+    def test_helper_profile_shows_signup_information_only(self):
+        user = User.objects.create_user(username='profile_helper', password='secret123')
+        Helper.objects.create(
+            name='Profile Helper',
+            age=30,
+            phone='1234567893',
+            gender='Female',
+            address='Main Street',
+            pincode='560001',
+            marital_status='Single',
+            children=0,
+            email='profile-helper@example.com',
+            skills='cleaning',
+            work_time='10 AM - 5 PM',
+            working_days=['Monday', 'Wednesday'],
+            food_pref='Veg Only',
+            work_pref='Any Family',
+            status='Available',
+            username='profile_helper',
+            password='stored-secret',
+            verification_status=Helper.VERIFICATION_STATUS_VERIFIED,
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse('helpers:profile'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'helpers/profile.html')
+        for signup_value in (
+            'Profile Helper',
+            '1234567893',
+            'profile-helper@example.com',
+            'Main Street',
+            'Monday, Wednesday',
+            'Veg Only',
+        ):
+            self.assertContains(response, signup_value)
+        self.assertNotContains(response, 'stored-secret')
+        self.assertNotContains(response, 'verification_status')
+
     def test_unverified_helper_is_shown_waiting_page_on_dashboard(self):
         user = User.objects.create_user(username='pending_dashboard_helper', password='secret123')
         Helper.objects.create(

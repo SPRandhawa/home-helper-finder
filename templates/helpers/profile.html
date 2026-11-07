@@ -1,0 +1,60 @@
+{% extends 'helpers/dashboard.html' %}
+
+{% block title %}My Profile | Home Helper Finder{% endblock %}
+
+{% block dashboard_content %}
+<section class="mx-auto max-w-5xl">
+    <div class="mb-6">
+        <p class="text-sm font-bold uppercase tracking-wider text-green">Helper account</p>
+        <h1 class="mt-2 text-3xl font-bold text-navy">My Profile</h1>
+        <p class="mt-2 text-slate-600">The information you provided when you signed up.</p>
+    </div>
+
+    <div class="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+        <div class="mb-8 flex flex-wrap items-center gap-5 border-b border-slate-200 pb-6">
+            {% if helper.photo %}
+                <img src="{{ helper.photo.url }}" alt="Profile photo of {{ helper.name }}" class="h-24 w-24 rounded-full object-cover">
+            {% endif %}
+            <div>
+                <h2 class="text-2xl font-bold text-navy">{{ helper.name }}</h2>
+                <p class="mt-1 text-slate-600">@{{ helper.username }}</p>
+            </div>
+        </div>
+
+        <dl class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div><dt class="text-sm font-semibold text-slate-500">Age</dt><dd class="mt-1 text-slate-900">{{ helper.age }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Phone number</dt><dd class="mt-1 text-slate-900">{{ helper.phone }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Gender</dt><dd class="mt-1 text-slate-900">{{ helper.gender }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Email</dt><dd class="mt-1 text-slate-900">{{ helper.email|default:"Not provided" }}</dd></div>
+            <div class="sm:col-span-2"><dt class="text-sm font-semibold text-slate-500">Address</dt><dd class="mt-1 whitespace-pre-line text-slate-900">{{ helper.address }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Pincode</dt><dd class="mt-1 text-slate-900">{{ helper.pincode|default:"Not provided" }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Marital status</dt><dd class="mt-1 text-slate-900">{{ helper.marital_status }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Number of children</dt><dd class="mt-1 text-slate-900">{{ helper.children }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Skills</dt><dd class="mt-1 whitespace-pre-line text-slate-900">{{ helper.skills }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Work time</dt><dd class="mt-1 text-slate-900">{{ helper.work_time }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Working days</dt><dd class="mt-1 text-slate-900">{{ helper.working_days|join:", "|default:"Not provided" }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Cooking preference</dt><dd class="mt-1 text-slate-900">{{ helper.food_pref }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Working comfort</dt><dd class="mt-1 text-slate-900">{{ helper.work_pref }}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Availability</dt><dd class="mt-1 text-slate-900">{{ helper.status|default:"Not provided" }}</dd></div>
+        </dl>
+
+        <div class="mt-8 border-t border-slate-200 pt-6">
+            <h2 class="text-lg font-bold text-navy">Signup uploads</h2>
+            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {% if helper.latest_photo %}
+                    <a href="{{ helper.latest_photo.url }}" target="_blank" rel="noopener" class="font-semibold text-green hover:underline">View latest photo</a>
+                {% endif %}
+                {% if helper.aadhaar_front %}
+                    <a href="{{ helper.aadhaar_front.url }}" target="_blank" rel="noopener" class="font-semibold text-green hover:underline">View Aadhaar front</a>
+                {% endif %}
+                {% if helper.aadhaar_back %}
+                    <a href="{{ helper.aadhaar_back.url }}" target="_blank" rel="noopener" class="font-semibold text-green hover:underline">View Aadhaar back</a>
+                {% endif %}
+                {% if not helper.latest_photo and not helper.aadhaar_front and not helper.aadhaar_back %}
+                    <p class="text-slate-600">No signup documents are available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

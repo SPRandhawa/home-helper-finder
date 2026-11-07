@@ -14,3 +14,15 @@ def list_helpers(request):
 		return render(request, 'waiting.html')
 
 	return render(request, 'helpers/dashboard.html')
+
+
+@login_required(login_url='/accounts/start/helper/')
+def helper_profile(request):
+	helper = Helper.objects.filter(username=request.user.get_username()).first()
+	if (
+		helper is None
+		or helper.verification_status != Helper.VERIFICATION_STATUS_VERIFIED
+	):
+		return render(request, 'waiting.html')
+
+	return render(request, 'helpers/profile.html', {'helper': helper})
