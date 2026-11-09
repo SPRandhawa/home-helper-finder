@@ -1,0 +1,27 @@
+{% extends 'dashboard.html' %}
+
+{% block title %}New job request | Home Helper Finder{% endblock %}
+
+{% block dashboard_content %}
+<section class="mx-auto max-w-3xl rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+    <p class="text-sm font-bold uppercase tracking-wider text-green">Find home help</p>
+    <h1 class="mt-2 text-3xl font-bold text-navy">Create a job request</h1>
+    <p class="mt-2 mb-6 text-slate-600">Share the job details with verified helpers. Your name, photo, address, and contact number will appear on the request card.</p>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-5">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            <label for="{{ field.id_for_label }}" class="mb-2 block text-sm font-semibold text-slate-700">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<p class="mt-1 text-sm text-slate-500">{{ field.help_text }}</p>{% endif %}
+            {% for error in field.errors %}<p class="mt-1 text-sm text-red-700">{{ error }}</p>{% endfor %}
+        </div>
+        {% endfor %}
+        <div class="flex flex-wrap gap-3 pt-2">
+            <button type="submit" class="rounded-lg bg-green px-5 py-3 font-semibold text-white hover:bg-green-dark">Send request</button>
+            <a href="{% url 'requests:list' %}" class="rounded-lg border border-slate-300 px-5 py-3 font-semibold text-navy hover:bg-slate-50">My requests</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

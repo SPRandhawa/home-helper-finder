@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 
 from .forms import HelperProfileForm
 from .models import Helper
+from requests_app.models import ServiceRequest
 
 
 @login_required(login_url='/accounts/start/helper/')
@@ -19,6 +20,26 @@ def list_helpers(request):
 		return render(request, 'waiting.html')
 
 	skills = [skill.strip() for skill in helper.skills.split(',') if skill.strip()]
+	available_requests = ServiceRequest.objects.filter(
+		status=ServiceRequest.STATUS_PENDING,
+		helper__isnull=True,
+	).exclude(rejected_by=helper).select_related('customer').order_by('-created_at')
+	accepted_jobs = ServiceRequest.objects.filter(
+		helper=helper,
+		status=ServiceRequest.STATUS_ACCEPTED,
+	).select_related('customer').order_by('preferred_date', '-created_at')
+	recent_requests = list(available_requests[:8])
+	upcoming_jobs = list(accepted_jobs[:5])
+	for job in recent_requests + upcoming_jobs:
+		job.whatsapp_number = ''.join(char for char in (job.customer_phone or '') if char.isdigit())
+		try:
+			job.customer_photo_available = bool(
+				job.customer_photo
+				and job.customer_photo.storage.exists(job.customer_photo.name)
+			)
+		except OSError:
+			job.customer_photo_available = False
+
 	return render(request, 'helpers/dashboard.html', {
 		'helper': helper,
 		'skills': skills,
@@ -27,6 +48,10 @@ def list_helpers(request):
 		'food_preference': helper.food_pref,
 		'work_preference': helper.work_pref,
 		'experience': helper.experience,
+		'recent_requests': recent_requests,
+		'upcoming_jobs': upcoming_jobs,
+		'pending_requests': available_requests.count(),
+		'accepted_jobs': accepted_jobs.count(),
 	})
 
 
