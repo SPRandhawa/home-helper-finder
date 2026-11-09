@@ -372,4 +372,121 @@
 
 </div>
 
+<!-- Professional Details Card -->
+<div class="card border-0 shadow-sm rounded-3 mt-4">
+
+    <div class="card-header bg-white border-0 px-4 pt-4">
+        <h5 class="fw-bold mb-1" style="color:#0B3052;">
+            <i class="fas fa-user-cog me-2" style="color:#4EA72E;"></i>
+            Professional Details
+        </h5>
+        <p class="text-muted small mb-0">
+            Your skills, availability and work preferences.
+        </p>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="row g-4">
+
+            <!-- Skills -->
+            <div class="col-md-6 col-lg-4">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-tools me-3 mt-1"
+                       style="color:#4EA72E;"></i>
+                    <div>
+                        <h6 class="fw-bold mb-2">Skills</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for skill in skills %}
+                                <span class="badge rounded-pill px-3 py-2"
+                                      style="background:#e5f4df;color:#3d8624;">
+                                    {{ skill }}
+                                </span>
+                            {% empty %}
+                                <span class="text-muted small">Not added yet</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work Time -->
+            <div class="col-md-6 col-lg-4">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-clock me-3 mt-1"
+                       style="color:#4EA72E;"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Work Time</h6>
+                        <p class="text-muted mb-0">
+                            {{ work_time|default:"Not specified" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work Days -->
+            <div class="col-md-6 col-lg-4">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-calendar-week me-3 mt-1"
+                       style="color:#4EA72E;"></i>
+                    <div>
+                        <h6 class="fw-bold mb-2">Work Days</h6>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for day in work_days %}
+                                <span class="badge bg-light text-dark border">
+                                    {{ day }}
+                                </span>
+                            {% empty %}
+                                <span class="text-muted small">Not specified</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Preference -->
+            <div class="col-md-6 col-lg-4">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-utensils me-3 mt-1"
+                       style="color:#4EA72E;"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Food Preference</h6>
+                        <p class="text-muted mb-0">
+                            {{ food_preference|default:"Not specified" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work Preference -->
+            <div class="col-md-6 col-lg-4">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-briefcase me-3 mt-1"
+                       style="color:#4EA72E;"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Work Preference</h6>
+                        <p class="text-muted mb-0">
+                            {{ work_preference|default:"Not specified" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="col-md-6 col-lg-4">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-award me-3 mt-1"
+                       style="color:#4EA72E;"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Experience</h6>
+                        <p class="text-muted mb-0">
+                            {{ experience|default:"Not specified" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Professional Details Card -->
+
 {% endblock %}
