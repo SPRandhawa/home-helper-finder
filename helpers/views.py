@@ -39,9 +39,15 @@ def helper_profile(request):
 	else:
 		form = HelperProfileForm(instance=helper)
 
+	try:
+		photo_available = bool(helper.photo and helper.photo.storage.exists(helper.photo.name))
+	except OSError:
+		photo_available = False
+
 	return render(request, 'helpers/profile.html', {
 		'helper': helper,
 		'form': form,
+		'photo_available': photo_available,
 	})
 
 
@@ -54,7 +60,12 @@ def profile_photo(request):
 	if helper is None or not helper.photo:
 		raise Http404
 
+	try:
+		photo_file = helper.photo.open('rb')
+	except (FileNotFoundError, OSError):
+		raise Http404
+
 	return FileResponse(
-		helper.photo.open('rb'),
+		photo_file,
 		content_type=mimetypes.guess_type(helper.photo.name)[0] or 'application/octet-stream',
 	)
