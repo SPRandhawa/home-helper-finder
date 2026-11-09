@@ -55,6 +55,7 @@ class HelperProfileForm(forms.ModelForm):
             'marital_status',
             'children',
             'skills',
+            'experience',
             'work_time',
             'working_days',
             'food_pref',

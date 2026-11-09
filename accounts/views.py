@@ -121,7 +121,13 @@ def create_account(request, destination):
 					marital_status=request.POST.get('marital_status', ''),
 					children=int(request.POST.get('children', 0) or 0),
 					email=request.POST.get('email') or '',
-					skills=request.POST.get('skills', ''),
+					skills=', '.join(
+						skill.strip()
+						for value in request.POST.getlist('skills')
+						for skill in value.split(',')
+						if skill.strip()
+					),
+					experience=request.POST.get('experience', '').strip(),
 					work_time=request.POST.get('work_time', ''),
 					working_days=request.POST.getlist('working_days'),
 					food_pref=request.POST.get('food_pref', ''),

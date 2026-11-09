@@ -18,7 +18,16 @@ def list_helpers(request):
 	):
 		return render(request, 'waiting.html')
 
-	return render(request, 'helpers/dashboard.html')
+	skills = [skill.strip() for skill in helper.skills.split(',') if skill.strip()]
+	return render(request, 'helpers/dashboard.html', {
+		'helper': helper,
+		'skills': skills,
+		'work_time': helper.work_time,
+		'work_days': helper.working_days,
+		'food_preference': helper.food_pref,
+		'work_preference': helper.work_pref,
+		'experience': helper.experience,
+	})
 
 
 @login_required(login_url='/accounts/start/helper/')

@@ -359,9 +359,9 @@
                     </p>
                 </div>
 
-                <span class="badge bg-success rounded-pill fs-6 px-4 py-2 mt-3 mt-md-0">
+                <span class="badge {% if helper.status == 'Busy' %}bg-warning text-dark{% else %}bg-success{% endif %} rounded-pill fs-6 px-4 py-2 mt-3 mt-md-0">
                     <i class="fas fa-circle me-2 small"></i>
-                    Available
+                    {{ helper.status|default:"Available" }}
                 </span>
 
             </div>

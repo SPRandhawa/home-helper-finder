@@ -22,6 +22,7 @@ class Helper(models.Model):
     children = models.IntegerField()
     email = models.EmailField(blank=True, null=True)
     skills = models.TextField()
+    experience = models.CharField(max_length=100, blank=True, default='')
     work_time = models.CharField(max_length=100)
     working_days = models.JSONField(default=list, blank=True)
     food_pref = models.CharField(max_length=50)
