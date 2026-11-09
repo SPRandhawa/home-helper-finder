@@ -1,7 +1,11 @@
 {% extends 'dashboard.html' %}
 
 {% block title %}Helper Dashboard{% endblock %}
-/* CSS for the sidebar menu */
+
+{% block extra_css %}
+<style>
+
+/* Sidebar Menu */
 .sidebar-menu {
     list-style: none;
     padding: 10px 12px;
@@ -34,55 +38,19 @@
     background-color: #134675;
     color: #ffffff;
 }
-/* Main Dashboard Container */
-.dashboard-main-card {
-    background: #ffffff;
-    border: 1px solid #e5eaf0;
-    border-radius: 16px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+/* Dashboard Cards */
+.dashboard-content .card {
+    border-radius: 14px;
+    border: 1px solid #e8edf2;
 }
 
-/* Summary Cards */
-.summary-card {
-    background: #ffffff;
-    border: 1px solid #e8edf2;
-    border-radius: 14px;
+.dashboard-content .card-body {
     padding: 20px;
-    height: 100%;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
-    transition: 0.3s ease;
 }
 
-.summary-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
-}
-
-/* Section Cards */
-.dashboard-section-card {
-    background: #ffffff;
-    border: 1px solid #e8edf2;
-    border-radius: 14px;
-    height: 100%;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
-}
-
-.dashboard-section-header {
-    padding: 20px;
-    border-bottom: 1px solid #edf0f4;
-}
-
-/* Availability Card */
-.availability-card {
-    background: #ffffff;
-    border: 1px solid #e8edf2;
-    border-radius: 14px;
-    padding: 22px;
-    margin-top: 24px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
-}
+</style>
+{% endblock %}
 <!--html-->
 {% block sidebar_menu %}
 <ul class="sidebar-menu">
