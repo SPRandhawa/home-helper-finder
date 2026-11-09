@@ -1,0 +1,25 @@
+{% extends 'dashboard.html' %}
+
+{% block title %}{{ heading }} | Home Helper Finder{% endblock %}
+
+{% block dashboard_content %}
+<div class="container-fluid">
+    <section class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+        {% if eyebrow %}
+        <p class="text-uppercase fw-semibold small mb-2" style="color: #4EA72E; letter-spacing: .08em;">
+            {{ eyebrow }}
+        </p>
+        {% endif %}
+        <h1 class="h3 fw-bold mb-3" style="color: #0B3052;">{{ heading|default:'Home Helper Finder' }}</h1>
+        {% if intro %}<p class="text-muted mb-4">{{ intro }}</p>{% endif %}
+
+        {% if actions %}
+        <div class="d-flex flex-wrap gap-3">
+            {% for action in actions %}
+            <a class="btn btn-success" href="{% url action.url_name %}">{{ action.label }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

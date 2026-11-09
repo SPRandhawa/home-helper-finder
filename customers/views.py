@@ -1,6 +1,22 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Customer
+
+
+@login_required(login_url='/accounts/start/customer/')
+def dashboard(request):
+    return render(request, 'app_dashboard.html', {
+        'active_page': 'customers',
+        'eyebrow': 'Customer space',
+        'heading': 'Welcome to your customer dashboard',
+        'intro': 'Find home helpers and keep track of your service requests.',
+        'actions': [
+            {'label': 'Find helpers', 'url_name': 'helpers:list'},
+            {'label': 'View requests', 'url_name': 'requests:list'},
+        ],
+    })
+
 
 def register_customer_view(request):
     if request.method == 'POST':
