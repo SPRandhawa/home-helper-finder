@@ -54,14 +54,60 @@
                     </div>
                 {% endfor %}
             </div>
+            <!-- Change Password Section -->
+<div class="mt-8 border-t border-slate-200 pt-6">
 
+    <div class="mb-5">
+        <h3 class="text-xl font-bold text-navy">
+            <i class="fas fa-lock mr-2 text-green"></i>
+            Change Password
+        </h3>
+        <p class="mt-1 text-sm text-slate-600">
+            Update your account password to keep your account secure.
+        </p>
+    </div>
+
+    <div class="rounded-xl border border-slate-200 bg-slate-50 p-5">
+
+        <div class="mb-4 flex items-center gap-3">
+            <div class="rounded-lg bg-green-100 p-3">
+                <i class="fas fa-shield-alt text-xl text-green"></i>
+            </div>
+            <div>
+                <h4 class="font-semibold text-navy">Password & Security</h4>
+                <p class="text-sm text-slate-500">
+                    Keep your password confidential.
+                </p>
+            </div>
+        </div>
+
+        <a href="{% url 'helpers:password_change' %}"
+           class="inline-flex items-center gap-2 rounded-lg bg-green px-5 py-3 font-semibold text-white transition hover:bg-green-dark">
+
+            <i class="fas fa-key"></i>
+            Change Password
+        </a>
+
+    </div>
+
+</div>
             <button type="submit" class="rounded-lg bg-green px-5 py-3 font-semibold text-white transition hover:bg-green-dark">Save changes</button>
         </form>
 
         <dl class="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 border-t border-slate-200 pt-6 sm:grid-cols-2">
             <div><dt class="text-sm font-semibold text-slate-500">Gender</dt><dd class="mt-1 text-slate-900">{{ helper.gender }}</dd></div>
-            <div><dt class="text-sm font-semibold text-slate-500">Address</dt><dd class="mt-1 whitespace-pre-line text-slate-900">{{ helper.address }}</dd></div>
             <div><dt class="text-sm font-semibold text-slate-500">Pincode</dt><dd class="mt-1 text-slate-900">{{ helper.pincode|default:"Not provided" }}</dd></div>
+            <div>
+    <p class="mb-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm font-medium text-red-700">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        Want to change your address? Please visit the Help Center option in your dashboard to request an address update.
+    </p>
+
+    <dt class="text-sm font-semibold text-slate-500">Address</dt>
+    <dd class="mt-1 whitespace-pre-line text-slate-900">
+        {{ helper.address }}
+    </dd>
+</div>
         </dl>
     </div>
 </section>
