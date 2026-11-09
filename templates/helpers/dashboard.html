@@ -90,274 +90,263 @@
 </ul>
 
 {% endblock %}
-
 ```html
 {% block dashboard_content %}
 
 <div class="container-fluid">
 
-    <!-- Welcome Section -->
-    <div class="mb-4">
-        <h2 class="fw-bold" style="color: #0B3052;">
-            Welcome Back, {{ request.user.username }}!
-        </h2>
-        <p class="text-muted">
-            Here's an overview of your work and activities.
-        </p>
-    </div>
+    <!-- Main Dashboard Card -->
+    <div class="card border-0 shadow-sm rounded-4 p-3 p-md-4">
 
-    <!-- Dashboard Summary Cards -->
-    <div class="row g-4 mb-4">
+        <!-- Welcome Section -->
+        <div class="mb-4">
+            <h4 class="fw-bold mb-1" style="color: #0B3052;">
+                Dashboard Overview
+            </h4>
+            <p class="text-muted mb-0">
+                Here's an overview of your work and activities.
+            </p>
+        </div>
 
-        <!-- Total Jobs Completed -->
-        <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="rounded-3 p-3 me-3"
-                         style="background: #e5f4df;">
-                        <i class="fas fa-check-circle fa-2x"
-                           style="color: #4EA72E;"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted mb-1">
-                            Total Jobs Completed
-                        </h6>
-                        <h3 class="fw-bold mb-0" style="color: #0B3052;">
-                            {{ completed_jobs|default:0 }}
-                        </h3>
+        <!-- Summary Cards -->
+        <div class="row g-3 mb-4">
+
+            <!-- Completed Jobs -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm rounded-3 h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-3 p-3 me-3"
+                             style="background:#e5f4df;">
+                            <i class="fas fa-check-circle fa-2x"
+                               style="color:#4EA72E;"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Total Jobs Completed</h6>
+                            <h3 class="fw-bold mb-0" style="color:#0B3052;">
+                                {{ completed_jobs|default:0 }}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Pending Requests -->
-        <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="rounded-3 p-3 me-3"
-                         style="background: #fff3cd;">
-                        <i class="fas fa-clock fa-2x"
-                           style="color: #e0a800;"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted mb-1">
-                            Pending Requests
-                        </h6>
-                        <h3 class="fw-bold mb-0" style="color: #0B3052;">
-                            {{ pending_requests|default:0 }}
-                        </h3>
+            <!-- Pending Requests -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm rounded-3 h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-3 p-3 me-3"
+                             style="background:#fff3cd;">
+                            <i class="fas fa-clock fa-2x"
+                               style="color:#e0a800;"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Pending Requests</h6>
+                            <h3 class="fw-bold mb-0" style="color:#0B3052;">
+                                {{ pending_requests|default:0 }}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Accepted Jobs -->
-        <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="rounded-3 p-3 me-3"
-                         style="background: #e0edff;">
-                        <i class="fas fa-briefcase fa-2x"
-                           style="color: #134675;"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted mb-1">
-                            Accepted Jobs
-                        </h6>
-                        <h3 class="fw-bold mb-0" style="color: #0B3052;">
-                            {{ accepted_jobs|default:0 }}
-                        </h3>
+            <!-- Accepted Jobs -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm rounded-3 h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-3 p-3 me-3"
+                             style="background:#e0edff;">
+                            <i class="fas fa-briefcase fa-2x"
+                               style="color:#134675;"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Accepted Jobs</h6>
+                            <h3 class="fw-bold mb-0" style="color:#0B3052;">
+                                {{ accepted_jobs|default:0 }}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Today's Schedule -->
-        <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="rounded-3 p-3 me-3"
-                         style="background: #f0e7ff;">
-                        <i class="fas fa-calendar-day fa-2x"
-                           style="color: #8055b5;"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted mb-1">
-                            Today's Schedule
-                        </h6>
-                        <h3 class="fw-bold mb-0" style="color: #0B3052;">
-                            {{ todays_jobs|default:0 }}
-                        </h3>
+            <!-- Today's Jobs -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm rounded-3 h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-3 p-3 me-3"
+                             style="background:#f0e7ff;">
+                            <i class="fas fa-calendar-day fa-2x"
+                               style="color:#8055b5;"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Today's Schedule</h6>
+                            <h3 class="fw-bold mb-0" style="color:#0B3052;">
+                                {{ todays_jobs|default:0 }}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+        <!-- Recent Requests and Upcoming Jobs -->
+        <div class="row g-3">
 
-    <!-- Recent Job Requests and Today's Schedule -->
-    <div class="row g-4">
+            <!-- Recent Job Requests -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm rounded-3 h-100">
 
-        <!-- Recent Job Requests -->
-        <div class="col-lg-7">
-            <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white border-0 px-4 pt-4">
+                        <h5 class="fw-bold mb-0" style="color:#0B3052;">
+                            <i class="fas fa-briefcase me-2"
+                               style="color:#4EA72E;"></i>
+                            Recent Job Requests
+                        </h5>
+                    </div>
 
-                <div class="card-header bg-white py-3 d-flex
-                            justify-content-between align-items-center">
-                    <h5 class="fw-bold mb-0" style="color: #0B3052;">
-                        <i class="fas fa-briefcase me-2"
-                           style="color: #4EA72E;"></i>
-                        Recent Job Requests
-                    </h5>
+                    <div class="card-body px-4">
 
-                    <a href="#"
-                       class="text-decoration-none fw-semibold"
-                       style="color: #4EA72E;">
-                        View All
-                    </a>
+                        {% for job in recent_requests %}
+
+                        <div class="border-bottom py-3">
+                            <div class="d-flex justify-content-between align-items-start">
+
+                                <div>
+                                    <h6 class="fw-bold mb-2">
+                                        {{ job.service }}
+                                    </h6>
+
+                                    <p class="text-muted small mb-1">
+                                        <i class="fas fa-user me-2"></i>
+                                        {{ job.customer }}
+                                    </p>
+
+                                    <p class="text-muted small mb-1">
+                                        <i class="fas fa-map-marker-alt me-2"></i>
+                                        {{ job.address }}
+                                    </p>
+
+                                    <p class="text-muted small mb-0">
+                                        <i class="fas fa-calendar me-2"></i>
+                                        {{ job.date }}
+                                    </p>
+                                </div>
+
+                                <span class="badge bg-warning text-dark rounded-pill px-3 py-2">
+                                    Pending
+                                </span>
+
+                            </div>
+                        </div>
+
+                        {% empty %}
+
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <p class="text-muted mb-0">
+                                No new job requests at the moment.
+                            </p>
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
                 </div>
+            </div>
 
-                <div class="card-body">
+            <!-- Upcoming Jobs -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm rounded-3 h-100">
 
-                    {% for job in recent_requests %}
+                    <div class="card-header bg-white border-0 px-4 pt-4">
+                        <h5 class="fw-bold mb-0" style="color:#0B3052;">
+                            <i class="fas fa-calendar-alt me-2"
+                               style="color:#4EA72E;"></i>
+                            Today's Upcoming Jobs
+                        </h5>
+                    </div>
 
-                    <div class="border-bottom py-3">
+                    <div class="card-body px-4">
 
-                        <div class="d-flex justify-content-between
-                                    align-items-start">
+                        {% for job in upcoming_jobs %}
+
+                        <div class="d-flex mb-4">
+
+                            <div class="me-3">
+                                <div class="rounded-3 p-3"
+                                     style="background:#e5f4df;">
+                                    <i class="fas fa-tools"
+                                       style="color:#4EA72E;"></i>
+                                </div>
+                            </div>
 
                             <div>
-                                <h6 class="fw-bold mb-1">
+                                <h6 class="fw-bold mb-2">
                                     {{ job.service }}
                                 </h6>
 
                                 <p class="text-muted small mb-1">
-                                    <i class="fas fa-user me-1"></i>
+                                    <i class="fas fa-clock me-2"></i>
+                                    {{ job.time }}
+                                </p>
+
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-user me-2"></i>
                                     {{ job.customer }}
                                 </p>
 
-                                <p class="text-muted small mb-1">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    {{ job.address }}
-                                </p>
-
-                                <p class="text-muted small mb-0">
-                                    <i class="fas fa-calendar me-1"></i>
-                                    {{ job.date }}
-                                </p>
+                                <span class="badge bg-success rounded-pill px-3">
+                                    {{ job.status }}
+                                </span>
                             </div>
-
-                            <span class="badge bg-warning text-dark">
-                                Pending
-                            </span>
 
                         </div>
 
+                        {% empty %}
+
+                        <div class="text-center py-5">
+                            <i class="fas fa-calendar-check fa-3x text-muted mb-3"></i>
+                            <p class="text-muted mb-0">
+                                No jobs scheduled for today.
+                            </p>
+                        </div>
+
+                        {% endfor %}
+
                     </div>
-
-                    {% empty %}
-
-                    <div class="text-center py-4">
-                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                        <p class="text-muted mb-0">
-                            No new job requests at the moment.
-                        </p>
-                    </div>
-
-                    {% endfor %}
-
                 </div>
             </div>
+
         </div>
 
-        <!-- Today's Schedule -->
-        <div class="col-lg-5">
-            <div class="card border-0 shadow-sm h-100">
+        <!-- Availability Card -->
+        <div class="card border-0 shadow-sm rounded-3 mt-4">
 
-                <div class="card-header bg-white py-3">
-                    <h5 class="fw-bold mb-0" style="color: #0B3052;">
-                        <i class="fas fa-calendar-alt me-2"
-                           style="color: #4EA72E;"></i>
-                        Today's Upcoming Jobs
+            <div class="card-body p-4 d-flex flex-wrap
+                        justify-content-between align-items-center">
+
+                <div>
+                    <h5 class="fw-bold mb-2" style="color:#0B3052;">
+                        <i class="fas fa-user-check me-2"
+                           style="color:#4EA72E;"></i>
+                        Your Availability
                     </h5>
+
+                    <p class="text-muted mb-0">
+                        Manage your availability to receive new job requests.
+                    </p>
                 </div>
 
-                <div class="card-body">
+                <span class="badge bg-success rounded-pill fs-6 px-4 py-2 mt-3 mt-md-0">
+                    <i class="fas fa-circle me-2 small"></i>
+                    Available
+                </span>
 
-                    {% for job in upcoming_jobs %}
-
-                    <div class="d-flex mb-4">
-
-                        <div class="me-3">
-                            <div class="rounded-3 p-3"
-                                 style="background: #e5f4df;">
-                                <i class="fas fa-tools"
-                                   style="color: #4EA72E;"></i>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h6 class="fw-bold mb-1">
-                                {{ job.service }}
-                            </h6>
-
-                            <p class="text-muted small mb-1">
-                                <i class="fas fa-clock me-1"></i>
-                                {{ job.time }}
-                            </p>
-
-                            <p class="text-muted small mb-1">
-                                <i class="fas fa-user me-1"></i>
-                                {{ job.customer }}
-                            </p>
-
-                            <span class="badge bg-success">
-                                {{ job.status }}
-                            </span>
-                        </div>
-
-                    </div>
-
-                    {% empty %}
-
-                    <div class="text-center py-4">
-                        <i class="fas fa-calendar-check fa-3x text-muted mb-3"></i>
-                        <p class="text-muted mb-0">
-                            No jobs scheduled for today.
-                        </p>
-                    </div>
-
-                    {% endfor %}
-
-                </div>
             </div>
         </div>
 
     </div>
-
-    <!-- Availability Status -->
-    <div class="card border-0 shadow-sm mt-4">
-        <div class="card-body d-flex flex-wrap
-                    justify-content-between align-items-center">
-
-            <div>
-                <h5 class="fw-bold mb-1" style="color: #0B3052;">
-                    <i class="fas fa-user-check me-2"
-                       style="color: #4EA72E;"></i>
-                    Your Availability
-                </h5>
-
-                <p class="text-muted mb-0">
-                    Manage your availability to receive new job requests.
-                </p>
-            </div>
-
-            <span class="badge bg-success fs-6 px-3 py-2">
-                Available
-            </span>
-
-        </div>
-    </div>
+    <!-- End Main Dashboard Card -->
 
 </div>
 
